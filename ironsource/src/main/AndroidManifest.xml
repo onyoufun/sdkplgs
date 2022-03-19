@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.linxcool.sdkface.ironsource">
+    <!-- 将目标 API 级别更新为 31 的应用需要在清单文件中声明 Google Play 服务正常权限 -->
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+
+</manifest>
