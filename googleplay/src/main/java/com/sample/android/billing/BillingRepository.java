@@ -44,7 +44,7 @@ public class BillingRepository {
     static final public String SKU_INFINITE_GAS_MONTHLY = "infinite_gas_monthly";
     static final public String SKU_INFINITE_GAS_YEARLY = "infinite_gas_yearly";
 
-    public static final String[] INAPP_SKUS = new String[]{ SKU_PREMIUM, SKU_GAS };
+    public static final String[] INAPP_SKUS = new String[]{ SKU_PREMIUM, SKU_GAS, "1001" };
     public static final String[] SUBSCRIPTION_SKUS = new String[]{SKU_INFINITE_GAS_MONTHLY, SKU_INFINITE_GAS_YEARLY};
     public static final String[] AUTO_CONSUME_SKUS = new String[]{SKU_GAS};
 

@@ -21,7 +21,7 @@ dependencyResolutionManagement {
         }
     }
 }
-rootProject.name = "plugins"
+rootProject.name = "sdkplgs"
 include ':app'
 include ':googleplay'
 include ':ironsource'

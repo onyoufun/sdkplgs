@@ -154,7 +154,12 @@ public class IronSourceInterface extends YmnPluginWrapper implements YmnCode {
         ironsourceAppKey = getPropertie("ironsourceAppKey");
         IronSource.setInterstitialListener(interstitialListener);
         IronSource.setRewardedVideoListener(rewardedVideoListener);
-        // IntegrationHelper.validateIntegration(getActivity());
+
+        if(isDebugMode()) {
+            IntegrationHelper.validateIntegration(getActivity());
+            Logger.i("ironsourceAppKey = " + ironsourceAppKey);
+        }
+
         IronSource.init(getActivity(), ironsourceAppKey, new InitializationListener() {
             @Override
             public void onInitializationComplete() {
