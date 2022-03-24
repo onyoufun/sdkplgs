@@ -48,10 +48,11 @@ dependencyResolutionManagement {
 
 * 在app/build.gradle文件中添加依赖:
 ```    
-implementation 'com.github.linxcool.sdkface:platform:1.0.1'
-implementation 'com.github.linxcool.sdkplgs:googleplay:1.0.0'
-implementation 'com.github.linxcool.sdkplgs:ironsource:1.0.0'
-...
+implementation 'com.github.linxcool.sdkface:platform:1.0.5'
+implementation 'com.github.linxcool.sdkplgs:googleplay:1.0.4'
+implementation 'com.github.linxcool.sdkplgs:ironsource:1.0.4'
+implementation 'com.github.linxcool.sdkplgs:meta:1.0.4'
+implementation 'com.github.linxcool.sdkplgs:firebase:1.0.4'
 ```
 
 [![](https://jitpack.io/v/linxcool/sdkface.svg)](https://jitpack.io/#linxcool/sdkface)

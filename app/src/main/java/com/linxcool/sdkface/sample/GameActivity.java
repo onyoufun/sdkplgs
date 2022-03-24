@@ -78,7 +78,7 @@ public class GameActivity extends SdkWrapperActivity implements Handler.Callback
             }
             @Override
             public void onClick(View view) {
-                YmnSdk.callFunction("facebook_share", "1", "url", "quote");
+                YmnSdk.callFunction("facebook_share", "1", "http://wwww.baidu.com", "quote");
             }
         });
 
