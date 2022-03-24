@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'com.google.gms.google-services' version '4.3.10'
 }
 
@@ -7,11 +7,10 @@ android {
     compileSdk COMPILE_SDK_VERSION as int
 
     defaultConfig {
-        applicationId "com.linxcool.mergeclash"
         minSdk MIN_SDK_VERSION as int
         targetSdk TARGET_SDK_VERSION as int
-        versionCode 1
-        versionName "1.0"
+
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -27,11 +26,9 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
+
+    implementation platform('com.google.firebase:firebase-bom:29.2.1')
+    implementation 'com.google.firebase:firebase-analytics'
+
     implementation "com.github.linxcool.sdkface:platform:$version_sdkface"
-    implementation project(path: ':googleplay')
-    implementation project(path: ':ironsource')
-    implementation project(path: ':firebase')
-    implementation project(path: ':meta')
 }

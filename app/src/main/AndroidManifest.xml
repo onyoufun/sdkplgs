@@ -10,15 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Sdkface" >
 
+        <meta-data android:name="SDK_APP_ID" android:value="1234"/>
+        <meta-data android:name="SDK_CHANNEL_ID" android:value="10086"/>
+        <meta-data android:name="SDK_CONFIG_ID" android:value="4399"/>
+
+        <!--
+        admob 从V17.0.0(适配器版本4.3.1)起，要求应用ID添加AndroidManifest作为标记
+        以下是com.linxcool.mergeclash的admob-appid，实际情况需要在主应用中自行配置
+        -->
         <meta-data
-            android:name="SDK_APP_ID"
-            android:value="1234"/>
-        <meta-data
-            android:name="SDK_CHANNEL_ID"
-            android:value="10086"/>
-        <meta-data
-            android:name="SDK_CONFIG_ID"
-            android:value="4399"/>
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3226315085829241~9508393581"/>
 
         <activity
             android:name=".GameActivity"

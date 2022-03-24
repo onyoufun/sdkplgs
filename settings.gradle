@@ -25,3 +25,5 @@ rootProject.name = "sdkplgs"
 include ':app'
 include ':googleplay'
 include ':ironsource'
+include ':firebase'
+include ':meta'

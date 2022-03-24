@@ -19,6 +19,8 @@ public abstract class SdkWrapperActivity extends Activity implements YmnCallback
 
         YmnSdk.registPlugin("com.linxcool.sdkface.googleplay.GooglePlayInterface");
         YmnSdk.registPlugin("com.linxcool.sdkface.ironsource.IronSourceInterface");
+        YmnSdk.registPlugin("com.linxcool.sdkface.firebase.FirebaseInterface");
+        YmnSdk.registPlugin("com.linxcool.sdkface.meta.MetaInterface");
         YmnSdk.setDebugMode(true);
         YmnSdk.registCallback(this);
         YmnSdk.initialize(this);

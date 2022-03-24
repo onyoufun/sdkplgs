@@ -56,3 +56,31 @@ implementation 'com.github.linxcool.sdkplgs:ironsource:1.0.0'
 
 [![](https://jitpack.io/v/linxcool/sdkface.svg)](https://jitpack.io/#linxcool/sdkface)
 
+# 其他注意事项
+
+* IronSource广告中介增加Admob
+从V17.0.0(适配器版本4.3.1)起，要求应用ID添加AndroidManifest作为标记
+以下是com.linxcool.mergeclash的admob-appid，实际情况需要在主应用中自行配置
+```
+<meta-data
+    android:name="com.google.android.gms.ads.APPLICATION_ID"
+    android:value="ca-app-pub-3226315085829241~9508393581"/>
+```
+
+* Meta(Facebook)登录
+需要在res/string.xml中配置以下信息
+```
+<string name="facebook_app_id">270103748649637</string>
+<string name="fb_login_protocol_scheme">fb270103748649637</string>
+<string name="facebook_client_token">142504a4d4d413d0f26201e0e0cad018</string>
+```
+
+* Firebase
+需要下载google-services.json文件放到与build.gradle相同的目录下
+且在build.gradle中配置以下信息：
+```
+plugins {
+    ...
+    id 'com.google.gms.google-services' version '4.3.10'
+}
+```

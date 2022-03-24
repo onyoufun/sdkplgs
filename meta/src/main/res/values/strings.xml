@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">sdkface</string>
-
     <!-- facebook-login -->
     <string name="facebook_app_id">270103748649637</string>
     <string name="fb_login_protocol_scheme">fb270103748649637</string>

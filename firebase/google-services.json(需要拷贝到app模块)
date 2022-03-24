@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "621546971900",
+    "project_id": "merge-clash-71068356",
+    "storage_bucket": "merge-clash-71068356.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:621546971900:android:6071775537eaf3a95b6d79",
+        "android_client_info": {
+          "package_name": "com.linxcool.mergeclash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "621546971900-r7n890f7kus40hldev4ef66d39peuuo7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxqlV6WHKr8S4zcS3tUEl9Ye7kv0L_P94"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "621546971900-r7n890f7kus40hldev4ef66d39peuuo7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

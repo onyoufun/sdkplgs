@@ -71,6 +71,16 @@ public class GameActivity extends SdkWrapperActivity implements Handler.Callback
             }
         });
 
+        FunctionViewFactory.registAdapter(new FunctionViewAdapter() {
+            @Override
+            public String getFunctionText() {
+                return "分享";
+            }
+            @Override
+            public void onClick(View view) {
+                YmnSdk.callFunction("facebook_share", "1", "url", "quote");
+            }
+        });
 
         for (FunctionViewAdapter adapter : FunctionViewFactory.getAdapters()) {
             View v = FunctionViewFactory.newView(this, adapter);
