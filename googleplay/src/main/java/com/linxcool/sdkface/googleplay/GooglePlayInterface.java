@@ -52,12 +52,14 @@ public class GooglePlayInterface extends YmnPaymentInterface implements YmnCallb
     public void onInit(final Context context) {
         super.onInit(context);
         String base64EncodedPublicKey = getPropertie("googleplayBase64EncodedPublicKey");
+        String skus = getPropertie("googleplayInAppSkus");
+
         BillingSecurity.setBase64EncodedPublicKey(base64EncodedPublicKey);
         BillingDataSource.setYmnCallback(this);
         this.billingDataSource = BillingDataSource.getInstance(context,
-                BillingRepository.INAPP_SKUS,
+                BillingRepository.formatSkus(skus),
                 BillingRepository.SUBSCRIPTION_SKUS,
-                BillingRepository.AUTO_CONSUME_SKUS);
+                BillingRepository.formatSkus(skus));
         this.gameRepository = new BillingRepository(billingDataSource, this);
     }
 
@@ -68,7 +70,8 @@ public class GooglePlayInterface extends YmnPaymentInterface implements YmnCallb
 
     @Override
     public void pay(final Map<String, String> map) {
-        gameRepository.buySku(getActivity(), "1001");
+        String sku = map.get(ARG_PRODUCT_ID);
+        gameRepository.buySku(getActivity(), sku);
     }
 
     @Override

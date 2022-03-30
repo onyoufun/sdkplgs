@@ -5,11 +5,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.linxcool.sdkface.YmnCode;
 import com.linxcool.sdkface.YmnSdk;
+import com.linxcool.sdkface.feature.protocol.IPaymentFeature;
 import com.linxcool.sdkface.ironsource.IronSourceInterface;
 import com.linxcool.sdkface.util.Logger;
 
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 /**
@@ -55,6 +59,7 @@ public class GameActivity extends SdkWrapperActivity implements Handler.Callback
             @Override
             public void onClick(View view) {
                 LinkedHashMap<String, String> order = new LinkedHashMap<>();
+                order.put(IPaymentFeature.ARG_PRODUCT_ID, "001");
                 YmnSdk.pay(order);
             }
         });
@@ -103,32 +108,35 @@ public class GameActivity extends SdkWrapperActivity implements Handler.Callback
     @Override
     public void onCallBack(int code, String msg) {
         switch (code) {
+            case 12514://YMNIS_REWARD_UNREADY
+                //YmnSdk.callFunction("ymnis_request_reward_ad");
+                break;
             case YmnSdk.ACTION_RET_INIT_SUCCESS:
             case YmnSdk.PAYRESULT_INIT_SUCCESS:
-                Logger.i("初始化成功");
+                toast("初始化成功");
                 break;
             case YmnSdk.ACTION_RET_INIT_FAIL:
             case YmnSdk.PAYRESULT_INIT_FAIL:
-                Logger.e("初始化失败 - " + msg);
+                toast("初始化失败 - " + msg);
                 break;
             case YmnSdk.ACTION_RET_LOGIN_SUCCESS:
-                Logger.d("登录成功");
+                toast("登录成功");
                 handler.sendEmptyMessageDelayed(0, 200);
                 break;
             case YmnSdk.ACTION_RET_LOGIN_CANCEL:
-                Logger.d("登录取消");
+                toast("登录取消");
                 break;
             case YmnSdk.ACTION_RET_LOGIN_FAIL:
-                Logger.d("登录失败");
+                toast("登录失败");
                 break;
             case YmnSdk.PAYRESULT_SUCCESS:
-                Logger.d("支付成功");
+                toast("支付成功");
                 break;
             case YmnSdk.PAYRESULT_CANCEL:
-                Logger.d("支付取消");
+                toast("支付取消");
                 break;
             case YmnSdk.PAYRESULT_FAIL:
-                Logger.d("支付失败");
+                toast("支付失败");
                 break;
             case YmnSdk.ACTION_RET_EXIT_PAGE:
                 finish();
@@ -139,6 +147,11 @@ public class GameActivity extends SdkWrapperActivity implements Handler.Callback
                 Logger.d("此时游戏应当切换到登录场景");
                 break;
         }
+    }
+
+    public void toast(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+        Logger.d(msg);
     }
 
 }

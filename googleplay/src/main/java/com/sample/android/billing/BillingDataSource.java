@@ -157,7 +157,7 @@ public class BillingDataSource implements
     /**
      * Our constructor. Since we are a singleton, this is only used internally.
      *
-     * @param application           Android application class.
+     * @param context           Android application class.
      * @param knownInappSKUs        SKUs of in-app purchases the source should know about
      * @param knownSubscriptionSKUs SKUs of subscriptions the source should know about
      */

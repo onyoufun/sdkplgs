@@ -22,7 +22,9 @@ import androidx.lifecycle.LiveData;
 
 import com.linxcool.sdkface.YmnCallback;
 import com.linxcool.sdkface.YmnCode;
+import com.linxcool.sdkface.feature.YmnDataBuilder;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -44,7 +46,7 @@ public class BillingRepository {
     static final public String SKU_INFINITE_GAS_MONTHLY = "infinite_gas_monthly";
     static final public String SKU_INFINITE_GAS_YEARLY = "infinite_gas_yearly";
 
-    public static final String[] INAPP_SKUS = new String[]{ SKU_PREMIUM, SKU_GAS, "1001" };
+    public static final String[] INAPP_SKUS = new String[]{ SKU_PREMIUM, SKU_GAS };
     public static final String[] SUBSCRIPTION_SKUS = new String[]{SKU_INFINITE_GAS_MONTHLY, SKU_INFINITE_GAS_YEARLY};
     public static final String[] AUTO_CONSUME_SKUS = new String[]{SKU_GAS};
 
@@ -53,6 +55,14 @@ public class BillingRepository {
     final ExecutorService driveExecutor = Executors.newSingleThreadExecutor();
 
     private YmnCallback ymnCallback;
+
+    public static String[] formatSkus(String skus){
+        String[] array = skus.split("-");
+        String[] result = new String[array.length + INAPP_SKUS.length];
+        System.arraycopy(array, 0, result, 0, array.length);
+        System.arraycopy(INAPP_SKUS, 0, result, array.length, INAPP_SKUS.length);
+        return result;
+    }
 
     public BillingRepository(BillingDataSource billingDataSource, YmnCallback ymnCallback) {
         this.billingDataSource = billingDataSource;
@@ -63,10 +73,12 @@ public class BillingRepository {
         // Since both are tied to application lifecycle
         billingDataSource.observeConsumedPurchases().observeForever(skuList -> {
             for ( String sku: skuList ) {
-                if (sku.equals(SKU_GAS)) {
-                    // 补发道具
-                    // TODO send result
-                }
+                // TODO send result 发道具
+                ymnCallback.onCallBack(YmnCode.PAYRESULT_SUCCESS,
+                        YmnDataBuilder.createJson(null).
+                                append("sku", sku).
+                                append("msg", "Pay and consumed purchases success!").
+                                toString());
             }
         });
     }

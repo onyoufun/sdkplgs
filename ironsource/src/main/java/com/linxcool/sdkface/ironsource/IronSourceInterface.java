@@ -61,13 +61,13 @@ public class IronSourceInterface extends YmnPluginWrapper implements YmnCode {
     InterstitialListener interstitialListener = new InterstitialListener() {
         @Override
         public void onInterstitialAdReady() {
-            Logger.i("IronSource 广告准备完毕");
+            Logger.i("IronSource 插屏广告准备完毕");
             sendResult(YMNIS_INTERSTITIAL_REQUEST_SUCCESS,"插屏广告请求成功");
         }
 
         @Override
         public void onInterstitialAdLoadFailed(IronSourceError ironSourceError) {
-            Logger.e("IronSource 广告加载失败");
+            Logger.e("IronSource 插屏广告加载失败");
             sendResult(YMNIS_INTERSTITIAL_REQUEST_FAIL,"插屏广告请求失败");
         }
 
@@ -116,6 +116,7 @@ public class IronSourceInterface extends YmnPluginWrapper implements YmnCode {
         @Override
         public void onRewardedVideoAvailabilityChanged(boolean b) {
             if (b) sendResult(YMNIS_REWARD_REQUEST_SUCCESS,"奖励广告请求完毕");
+            else sendResult(YMNIS_REWARD_REQUEST_ERROR, "奖励广告请求失败");
             Logger.i("IronSource onRewardedVideoAvailabilityChanged");
         }
 
@@ -156,10 +157,10 @@ public class IronSourceInterface extends YmnPluginWrapper implements YmnCode {
         IronSource.setRewardedVideoListener(rewardedVideoListener);
 
         if(isDebugMode()) {
+            IronSource.shouldTrackNetworkState(context, true);
             IntegrationHelper.validateIntegration(getActivity());
             Logger.i("ironsourceAppKey = " + ironsourceAppKey);
         }
-
         IronSource.init(getActivity(), ironsourceAppKey, new InitializationListener() {
             @Override
             public void onInitializationComplete() {
