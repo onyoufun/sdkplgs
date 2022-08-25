@@ -55,6 +55,7 @@ public class BillingRepository {
     final ExecutorService driveExecutor = Executors.newSingleThreadExecutor();
 
     private YmnCallback ymnCallback;
+    private String productId;
 
     public static String[] formatSkus(String skus){
         String[] array = skus.split("-");
@@ -76,6 +77,7 @@ public class BillingRepository {
                 // TODO send result 发道具
                 ymnCallback.onCallBack(YmnCode.PAYRESULT_SUCCESS,
                         YmnDataBuilder.createJson(null).
+                                append("product_id", productId).
                                 append("sku", sku).
                                 append("msg", "Pay and consumed purchases success!").
                                 toString());
@@ -124,9 +126,11 @@ public class BillingRepository {
      * Automatic support for upgrading/downgrading subscription.
      *
      * @param activity Needed by billing library to start the Google Play billing activity
+     * @param productId 透传
      * @param sku the product ID to purchase
      */
-    public void buySku(Activity activity, String sku) {
+    public void buySku(Activity activity, String productId, String sku) {
+        this.productId = productId;
         String oldSku = null;
         switch (sku) {
             case SKU_INFINITE_GAS_MONTHLY:
