@@ -12,17 +12,20 @@ import com.adjust.sdk.LogLevel;
 import com.linxcool.sdkface.YmnApplication;
 import com.linxcool.sdkface.feature.YmnProperties;
 
-public class MainApplication extends YmnApplication {
+public abstract class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        String appToken = "adjustAppToken";
+        String appToken = getAdjustToken();
         String environment = AdjustConfig.ENVIRONMENT_SANDBOX;//todo ENVIRONMENT_PRODUCTION
         AdjustConfig config = new AdjustConfig(this, appToken, environment);
         config.setLogLevel(LogLevel.VERBOSE);//todo test
         Adjust.onCreate(config);
         registerActivityLifecycleCallbacks(new AdjustLifecycleCallbacks());
     }
+
+    public abstract String getAdjustToken();
+
     private static final class AdjustLifecycleCallbacks implements ActivityLifecycleCallbacks {
 
         @Override
