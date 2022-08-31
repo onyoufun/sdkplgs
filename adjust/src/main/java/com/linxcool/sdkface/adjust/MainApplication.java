@@ -17,9 +17,9 @@ public abstract class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         String appToken = getAdjustToken();
-        String environment = AdjustConfig.ENVIRONMENT_SANDBOX;//todo ENVIRONMENT_PRODUCTION
+        String environment = AdjustConfig.ENVIRONMENT_PRODUCTION;//ENVIRONMENT_SANDBOX
         AdjustConfig config = new AdjustConfig(this, appToken, environment);
-        config.setLogLevel(LogLevel.VERBOSE);//todo test
+//        config.setLogLevel(LogLevel.VERBOSE);//todo test
         Adjust.onCreate(config);
         registerActivityLifecycleCallbacks(new AdjustLifecycleCallbacks());
     }
