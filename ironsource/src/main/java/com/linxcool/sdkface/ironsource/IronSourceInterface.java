@@ -3,7 +3,12 @@ package com.linxcool.sdkface.ironsource;
 
 import android.content.Context;
 
+import com.adjust.sdk.Adjust;
+import com.adjust.sdk.AdjustAdRevenue;
+import com.adjust.sdk.AdjustConfig;
 import com.ironsource.mediationsdk.IronSource;
+import com.ironsource.mediationsdk.impressionData.ImpressionData;
+import com.ironsource.mediationsdk.impressionData.ImpressionDataListener;
 import com.ironsource.mediationsdk.integration.IntegrationHelper;
 import com.ironsource.mediationsdk.logger.IronSourceError;
 import com.ironsource.mediationsdk.model.Placement;
@@ -149,13 +154,27 @@ public class IronSourceInterface extends YmnPluginWrapper implements YmnCode {
         }
     };
 
+    ImpressionDataListener impressionDataListener = new ImpressionDataListener() {
+        @Override
+        public void onImpressionSuccess(ImpressionData impressionData) {
+            AdjustAdRevenue adjustAdRevenue = new AdjustAdRevenue(AdjustConfig.AD_REVENUE_IRONSOURCE);
+            adjustAdRevenue.setRevenue(impressionData.getRevenue(),"USD");
+            // optional fields
+            adjustAdRevenue.setAdRevenueNetwork(impressionData.getAdNetwork());
+            adjustAdRevenue.setAdRevenueUnit(impressionData.getAdUnit());
+            adjustAdRevenue.setAdRevenuePlacement(impressionData.getPlacement());
+            // track Adjust ad revenue
+            Adjust.trackAdRevenue(adjustAdRevenue);
+        }
+    };
+
     @Override
     public void onInit(Context context) {
         super.onInit(context);
         ironsourceAppKey = getPropertie("ironsourceAppKey");
         IronSource.setInterstitialListener(interstitialListener);
         IronSource.setRewardedVideoListener(rewardedVideoListener);
-
+        IronSource.addImpressionDataListener(impressionDataListener);
         if(isDebugMode()) {
             IronSource.shouldTrackNetworkState(context, true);
             IntegrationHelper.validateIntegration(getActivity());
