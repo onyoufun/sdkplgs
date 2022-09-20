@@ -46,6 +46,8 @@ import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.linxcool.sdkface.YmnCallback;
 import com.linxcool.sdkface.YmnCode;
+import com.linxcool.sdkface.YmnSdk;
+import com.linxcool.sdkface.googleplay.GooglePlayInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -454,6 +456,11 @@ public class BillingDataSource implements
                         Log.e(TAG, "Problem getting subscriptions: " + billingResult.getDebugMessage());
                     } else {
                         processPurchaseList(list, knownSubscriptionSKUs);
+                        for ( Purchase purchase : list ) {
+                            for ( String sku : purchase.getSkus() ) {
+                                ymnCallback.onCallBack(GooglePlayInterface.GOOGLEPLAY_OWNED_SUB_SKU, sku);
+                            }
+                        }
                     }
 
                 });
@@ -710,7 +717,11 @@ public class BillingDataSource implements
     public void launchBillingFlow(Activity activity, @NonNull String sku,
                                   String... upgradeSkus) {
         LiveData<SkuDetails> skuDetailsLiveData = skuDetailsLiveDataMap.get(sku);
-        assert skuDetailsLiveData != null;
+        if (skuDetailsLiveData == null) {
+            Log.e(TAG, "sku not found for: " + sku);
+            ymnCallback.onCallBack(YmnCode.PAYRESULT_FAIL, "sku not found for: " + sku);
+            return;
+        }
         SkuDetails skuDetails = skuDetailsLiveData.getValue();
 
         if(skuDetails == null) {
@@ -812,9 +823,11 @@ public class BillingDataSource implements
                 break;
             case BillingClient.BillingResponseCode.USER_CANCELED:
                 Log.i(TAG, "onPurchasesUpdated: User canceled the purchase");
+                ymnCallback.onCallBack(YmnCode.PAYRESULT_CANCEL, "USER_CANCELED");
                 break;
             case BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED:
                 Log.i(TAG, "onPurchasesUpdated: The user already owns this item");
+                ymnCallback.onCallBack(YmnCode.PAYRESULT_FAIL, "ITEM_ALREADY_OWNED");
                 break;
             case BillingClient.BillingResponseCode.DEVELOPER_ERROR:
                 Log.e(TAG, "onPurchasesUpdated: Developer error means that Google Play " +
@@ -823,10 +836,12 @@ public class BillingDataSource implements
                         "Google Play Console. The SKU product ID must match and the APK you " +
                         "are using must be signed with release keys."
                 );
+                ymnCallback.onCallBack(YmnCode.PAYRESULT_FAIL, "DEVELOPER_ERROR");
                 break;
             default:
                 Log.d(TAG, "BillingResult [" + billingResult.getResponseCode() + "]: "
                         + billingResult.getDebugMessage());
+                ymnCallback.onCallBack(YmnCode.PAYRESULT_FAIL, billingResult.getResponseCode()  + "|" + billingResult.getDebugMessage());
         }
         billingFlowInProcess.postValue(false);
     }

@@ -24,7 +24,6 @@ import com.linxcool.sdkface.YmnCallback;
 import com.linxcool.sdkface.YmnCode;
 import com.linxcool.sdkface.feature.YmnDataBuilder;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -55,7 +54,7 @@ public class BillingRepository {
     final ExecutorService driveExecutor = Executors.newSingleThreadExecutor();
 
     private YmnCallback ymnCallback;
-    private String productId;
+    private String orderId;
 
     public static String[] formatSkus(String skus){
         String[] array = skus.split("-");
@@ -69,20 +68,31 @@ public class BillingRepository {
         this.billingDataSource = billingDataSource;
         this.ymnCallback = ymnCallback;
 
-        setupMessagesSingleMediatorLiveEvent();
+//        setupMessagesSingleMediatorLiveEvent();
 
-        // Since both are tied to application lifecycle
-        billingDataSource.observeConsumedPurchases().observeForever(skuList -> {
+        billingDataSource.observeNewPurchases().observeForever(skuList -> {
             for ( String sku: skuList ) {
-                // TODO send result 发道具
                 ymnCallback.onCallBack(YmnCode.PAYRESULT_SUCCESS,
                         YmnDataBuilder.createJson(null).
-                                append("product_id", productId).
+                                append("order_id", orderId).
                                 append("sku", sku).
                                 append("msg", "Pay and consumed purchases success!").
                                 toString());
             }
         });
+
+        // Since both are tied to application lifecycle
+//        billingDataSource.observeConsumedPurchases().observeForever(skuList -> {
+//            for ( String sku: skuList ) {
+//                // TODO send result 发道具
+//                ymnCallback.onCallBack(YmnCode.PAYRESULT_SUCCESS,
+//                        YmnDataBuilder.createJson(null).
+//                                append("product_id", productId).
+//                                append("sku", sku).
+//                                append("msg", "Pay and consumed purchases success!").
+//                                toString());
+//            }
+//        });
     }
 
     /**
@@ -98,16 +108,6 @@ public class BillingRepository {
             // TODO: Handle multi-line purchases better
             for (String s: stringList) {
                 switch (s) {
-                    case SKU_GAS:
-                        // More gas acquired!
-                        // TODO send result
-                        ymnCallback.onCallBack(YmnCode.PAYRESULT_SUCCESS, "More gas acquired!");
-                        break;
-                    case SKU_PREMIUM:
-                        // You're now a premium driver!
-                        // TODO send result
-                        ymnCallback.onCallBack(YmnCode.PAYRESULT_SUCCESS, "You're now a premium user!");
-                        break;
                     case SKU_INFINITE_GAS_MONTHLY:
                     case SKU_INFINITE_GAS_YEARLY:
                         // this makes sure that upgraded and downgraded subscriptions are
@@ -115,7 +115,6 @@ public class BillingRepository {
                         billingDataSource.refreshPurchasesAsync();
                         // Thank you for subscribing! You have infinite gas!
                         // TODO send result
-                        ymnCallback.onCallBack(YmnCode.PAYRESULT_SUCCESS, "hank you for subscribing! You have infinite gas!");
                         break;
                 }
             }
@@ -126,20 +125,20 @@ public class BillingRepository {
      * Automatic support for upgrading/downgrading subscription.
      *
      * @param activity Needed by billing library to start the Google Play billing activity
-     * @param productId 透传
+     * @param orderId 透传
      * @param sku the product ID to purchase
      */
-    public void buySku(Activity activity, String productId, String sku) {
-        this.productId = productId;
+    public void buySku(Activity activity, String orderId, String sku) {
+        this.orderId = orderId;
         String oldSku = null;
-        switch (sku) {
-            case SKU_INFINITE_GAS_MONTHLY:
-                oldSku = SKU_INFINITE_GAS_YEARLY;
-                break;
-            case SKU_INFINITE_GAS_YEARLY:
-                oldSku = SKU_INFINITE_GAS_MONTHLY;
-                break;
-        }
+//        switch (sku) {
+//            case SKU_INFINITE_GAS_MONTHLY:
+//                oldSku = SKU_INFINITE_GAS_YEARLY;
+//                break;
+//            case SKU_INFINITE_GAS_YEARLY:
+//                oldSku = SKU_INFINITE_GAS_MONTHLY;
+//                break;
+//        }
         if ( null != oldSku ) {
             billingDataSource.launchBillingFlow(activity, sku, oldSku);
         } else {
