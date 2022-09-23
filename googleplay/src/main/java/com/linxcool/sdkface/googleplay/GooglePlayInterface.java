@@ -74,7 +74,7 @@ public class GooglePlayInterface extends YmnPaymentInterface implements YmnCallb
     @Override
     public void pay(final Map<String, String> map) {
         String sku = map.get(ARG_PRODUCT_ID);
-        String orderId = map.get(ARG_TRADE_CODE);
+        String orderId = map.get(ARG_CP_ORDER_ID);
 
         gameRepository.buySku(getActivity(), orderId, sku);
     }
