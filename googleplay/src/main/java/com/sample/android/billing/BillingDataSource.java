@@ -124,7 +124,7 @@ public class BillingDataSource implements
     final private Map<String, MutableLiveData<SkuDetails>> skuDetailsLiveDataMap = new HashMap<>();
     // Observables that are used to communicate state.
     final private Set<Purchase> purchaseConsumptionInProcess = new HashSet<>();
-    final private SingleMediatorLiveEvent<List<String>> newPurchase = new SingleMediatorLiveEvent<>();
+    final private SingleMediatorLiveEvent<Purchase> newPurchase = new SingleMediatorLiveEvent<>();
     final private SingleMediatorLiveEvent<List<String>> purchaseConsumed = new SingleMediatorLiveEvent<>();
     final private MutableLiveData<Boolean> billingFlowInProcess = new MutableLiveData<>();
 
@@ -344,7 +344,7 @@ public class BillingDataSource implements
      *
      * @return LiveData that contains the sku of the new purchase.
      */
-    public final LiveData<List<String>> observeNewPurchases() {
+    public final LiveData<Purchase> observeNewPurchases() {
         return newPurchase;
     }
 
@@ -648,7 +648,8 @@ public class BillingDataSource implements
                                 for ( String sku : purchase.getSkus() ) {
                                     setSkuState(sku, SkuState.SKU_STATE_PURCHASED_AND_ACKNOWLEDGED);
                                 }
-                                newPurchase.postValue(purchase.getSkus());
+                                newPurchase.postValue(purchase);
+                                
                             }
                         });
                     }
@@ -697,7 +698,7 @@ public class BillingDataSource implements
                     setSkuState(sku, SkuState.SKU_STATE_UNPURCHASED);
                     // And this also qualifies as a new purchase
                 }
-                newPurchase.postValue(purchase.getSkus());
+                newPurchase.postValue(purchase);
             } else {
                 Log.e(TAG, "Error while consuming: " + billingResult.getDebugMessage());
             }

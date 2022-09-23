@@ -20,6 +20,7 @@ import android.app.Activity;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LiveData;
 
+import com.android.billingclient.api.Purchase;
 import com.linxcool.sdkface.YmnCallback;
 import com.linxcool.sdkface.YmnCode;
 import com.linxcool.sdkface.feature.YmnDataBuilder;
@@ -70,12 +71,13 @@ public class BillingRepository {
 
 //        setupMessagesSingleMediatorLiveEvent();
 
-        billingDataSource.observeNewPurchases().observeForever(skuList -> {
-            for ( String sku: skuList ) {
+        billingDataSource.observeNewPurchases().observeForever(purchase -> {
+            for ( String sku: purchase.getSkus() ) {
                 ymnCallback.onCallBack(YmnCode.PAYRESULT_SUCCESS,
                         YmnDataBuilder.createJson(null).
                                 append("order_id", orderId).
                                 append("sku", sku).
+                                append("token", purchase.getPurchaseToken()).
                                 append("msg", "Pay and consumed purchases success!").
                                 toString());
             }
@@ -103,10 +105,10 @@ public class BillingRepository {
      * strings into useful String messages.
      */
     void setupMessagesSingleMediatorLiveEvent() {
-        final LiveData<List<String>> billingMessages = billingDataSource.observeNewPurchases();
-        allMessages.addSource(billingMessages, stringList -> {
+        final LiveData<Purchase> billingMessages = billingDataSource.observeNewPurchases();
+        allMessages.addSource(billingMessages, purchase -> {
             // TODO: Handle multi-line purchases better
-            for (String s: stringList) {
+            for (String s: purchase.getSkus()) {
                 switch (s) {
                     case SKU_INFINITE_GAS_MONTHLY:
                     case SKU_INFINITE_GAS_YEARLY:
