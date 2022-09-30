@@ -15,11 +15,11 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/firebase" />
             <option value="$PROJECT_DIR$/googleplay" />
-            <option value="$PROJECT_DIR$/googleservice" />
             <option value="$PROJECT_DIR$/ironsource" />
             <option value="$PROJECT_DIR$/meta" />
           </set>
         </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

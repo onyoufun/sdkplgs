@@ -34,4 +34,5 @@ dependencies {
     implementation project(path: ':ironsource')
     implementation project(path: ':firebase')
     implementation project(path: ':meta')
+    implementation project(path: ':adjust')
 }
