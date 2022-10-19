@@ -57,7 +57,7 @@ public class BillingRepository {
     private YmnCallback ymnCallback;
     private String orderId;
 
-    public static String[] formatSkus(String skus){
+    public static String[] formatSkus(String skus) {
         String[] array = skus.split("-");
         String[] result = new String[array.length + INAPP_SKUS.length];
         System.arraycopy(array, 0, result, 0, array.length);
@@ -78,6 +78,7 @@ public class BillingRepository {
                                 append("order_id", orderId).
                                 append("sku", sku).
                                 append("token", purchase.getPurchaseToken()).
+                                append("google_order_id", purchase.getOrderId()).
                                 append("msg", "Pay and consumed purchases success!").
                                 toString());
             }
