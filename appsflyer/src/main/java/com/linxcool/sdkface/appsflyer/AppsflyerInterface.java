@@ -63,6 +63,11 @@ public class AppsflyerInterface extends YmnPluginWrapper {
         AppsFlyerLib.getInstance().logEvent(getContext(), AFInAppEventType.PURCHASE, eventValues);
     }
 
+    @YFunction(name = "appsflyer_set_customer_userid")
+    public void onSetCustomerUserID(String userId) {
+        AppsFlyerLib.getInstance().setCustomerUserId(userId);
+    }
+
     public Map<String, Object> getMap(String jsonString) {
         JSONObject jsonObject;
         try {

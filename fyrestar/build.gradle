@@ -1,0 +1,67 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdk COMPILE_SDK_VERSION as int
+
+    defaultConfig {
+        minSdk MIN_SDK_VERSION as int
+        targetSdk TARGET_SDK_VERSION as int
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation "com.github.linxcool.sdkface:platform:$version_sdkface"
+    //导入sdk
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
+    //google&firebase相关
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
+    implementation 'com.google.android.gms:play-services-base:18.1.0'
+
+    //firebase
+    implementation 'com.google.firebase:firebase-messaging:23.1.0'
+    implementation 'com.firebase:firebase-jobdispatcher:0.5.2'
+    implementation 'com.google.firebase:firebase-config:21.2.0'
+    implementation 'com.google.firebase:firebase-analytics:21.1.0'
+    implementation 'com.google.firebase:firebase-config:18.0.0'
+
+    //googlePay
+    implementation "com.android.billingclient:billing:4.0.0"
+
+    //admob
+    implementation 'com.google.android.gms:play-services-ads:21.3.0'
+    implementation 'com.google.ads.mediation:facebook:6.11.0.1'
+
+    // helpshit
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.helpshift:android-helpshift-aar:7.11.1'
+
+    //facebook
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+
+    //twitter
+    implementation 'com.twitter.sdk.android:twitter:3.1.1'
+
+    //other
+    implementation 'androidx.multidex:multidex:2.0.0'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+    implementation 'com.blankj:utilcodex:1.31.0'
+    implementation 'org.ow2.asm:asm:7.0'
+}
