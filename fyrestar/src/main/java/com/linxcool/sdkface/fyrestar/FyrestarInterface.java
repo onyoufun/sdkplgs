@@ -21,6 +21,7 @@ import com.foyoent.vjpsdk.agent.listener.FYCallback;
 import com.foyoent.vjpsdk.agent.model.FoyoOrderParam;
 import com.foyoent.vjpsdk.agent.pay.PayType;
 import com.foyoent.vjpsdk.agent.statistics.FoyoJPStatistic;
+import com.foyoent.vjpsdk.agent.statistics.JPEventType;
 import com.linxcool.sdkface.feature.YmnPluginWrapper;
 import com.linxcool.sdkface.feature.protocol.YFunction;
 import com.linxcool.sdkface.feature.protocol.YPlugin;
@@ -193,6 +194,67 @@ public class FyrestarInterface extends YmnPluginWrapper {
         isAdReady = false;
     }
 
+    @YFunction(name = "fyrestar_role_create")
+    public void OnRoleCreate(String roleId, String roleName, String level) {
+        HashMap map = new HashMap<String, String>();
+        map.put(JPEventType.KEY_EVT_SERVERID, "0");//区服id
+        map.put(JPEventType.KEY_EVT_ROLEID, roleId);//角色id
+        map.put(JPEventType.KEY_EVT_AF_PUID, "");//AppsFlyer的设备ID，默认为""
+        map.put(JPEventType.KEY_EVT_AF_CHANNEL, "");//AppsFlyer的渠道号，默认为""
+        map.put(JPEventType.KEY_EVT_SERVERNAME, "server1");//区服名称
+        map.put(JPEventType.KEY_EVT_ROLENAME, roleName);//角色名称
+        map.put(JPEventType.KEY_EVT_ROLE_CREATE_TIME, System.currentTimeMillis()/1000 + "");//角色创建时间,精确到秒
+        map.put(JPEventType.KEY_EVT_ROLE_LEVEL, level);//角色等级
+        map.put(JPEventType.KEY_EVT_ROLE_VIP_LEVEL, "1");//VIP等级
+        FoyoJPStatistic.getInstance().createRole(map);
+    }
+
+    @YFunction(name = "fyrestar_enter_game")
+    public void OnEnterGame(String roleId, String roleName, String level, String coinNum) {
+        HashMap map = new HashMap<String, String>();
+        map.put(JPEventType.KEY_EVT_SERVERID, "0");//区服id
+        map.put(JPEventType.KEY_EVT_ROLEID, roleId);//角色id
+        map.put(JPEventType.KEY_EVT_AF_PUID, "");//AppsFlyer的设备ID，默认为""
+        map.put(JPEventType.KEY_EVT_AF_CHANNEL, "");//AppsFlyer的渠道号，默认为""
+        map.put(JPEventType.KEY_EVT_SERVERNAME, "server1");//区服名称
+        map.put(JPEventType.KEY_EVT_ROLENAME, roleName);//角色名称
+        map.put(JPEventType.KEY_EVT_ROLE_CREATE_TIME, System.currentTimeMillis()/1000 + "");//角色创建时间,精确到秒
+        map.put(JPEventType.KEY_EVT_ROLE_LEVEL, level);//角色等级
+        map.put(JPEventType.KEY_EVT_ROLE_VIP_LEVEL, "1");//VIP等级
+        map.put(JPEventType.KEY_EVT_ROLE_COIN_NUM, coinNum);//角色货币数,角色的主要货币剩余量
+        FoyoJPStatistic.getInstance().enterGame(map);
+    }
+
+    @YFunction(name = "fyrestar_role_levelup")
+    public void OnRoleLevelUp(String roleId, String roleName, String levelBefore, String level) {
+        HashMap map = new HashMap<String, String>();
+        map.put(JPEventType.KEY_EVT_SERVERID, "0");//区服id
+        map.put(JPEventType.KEY_EVT_ROLEID, roleId);//角色id
+        map.put(JPEventType.KEY_EVT_AF_PUID, "");//AppsFlyer的设备ID，默认为""
+        map.put(JPEventType.KEY_EVT_AF_CHANNEL, "");//AppsFlyer的渠道号，默认为""
+        map.put(JPEventType.KEY_EVT_SERVERNAME, "server1");//区服名称
+        map.put(JPEventType.KEY_EVT_ROLENAME, roleName);//角色名称
+        map.put(JPEventType.KEY_EVT_ROLE_LEVLE_BEFORE, levelBefore);//升级前的角色等级
+        map.put(JPEventType.KEY_EVT_ROLE_LEVEL, level);//角色等级
+        map.put(JPEventType.KEY_EVT_ROLE_VIP_LEVEL, "1");//VIP等级
+        FoyoJPStatistic.getInstance().roleLevelUp(map);
+    }
+
+    @YFunction(name = "fyrestar_tutorial")
+    public void OnTutorial(String level, String step) {
+        HashMap map = new HashMap<String, String>();
+        map.put(JPEventType.KEY_EVT_ROLE_LEVEL, level);//角色等级
+        map.put(JPEventType.KEY_EVT_NOVICE_GUIDE_STEPS, step);//新手引导步骤
+        FoyoJPStatistic.getInstance().tutorial(map);
+    }
+    @YFunction(name = "fyrestar_compelete_load")
+    public void OnCompleteLoadRes() {
+        FoyoJPStatistic.getInstance().completeLoadRes();
+    }
+    @YFunction(name = "fyrestar_active_app")
+    public void OnActiveApp() {
+        FoyoJPStatistic.getInstance().activeApp();
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(!FYSDK.getInstance().onActivityResult(requestCode,resultCode,data)){
