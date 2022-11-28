@@ -97,7 +97,7 @@ public class FyrestarInterface extends YmnPluginWrapper {
             OnActiveApp();
             savePreferences(getActivity(), "isFirst", "0");
         }
-        onLogEvent("application", "");
+        onLogEvent("1001", "");
     }
 
     @YFunction(name = "fyrestar_login")
