@@ -204,7 +204,7 @@ public class FyrestarInterface extends YmnPluginWrapper {
     }
 
     @YFunction(name = "fyrestar_role_create")
-    public void OnRoleCreate(String roleId, String roleName, String level) {
+    public void OnRoleCreate(String roleId, String roleName, String level, String vipLevel) {
         HashMap map = new HashMap<String, String>();
         map.put(JPEventType.KEY_EVT_SERVERID, "0");//区服id
         map.put(JPEventType.KEY_EVT_ROLEID, roleId);//角色id
@@ -214,12 +214,12 @@ public class FyrestarInterface extends YmnPluginWrapper {
         map.put(JPEventType.KEY_EVT_ROLENAME, roleName);//角色名称
         map.put(JPEventType.KEY_EVT_ROLE_CREATE_TIME, System.currentTimeMillis()/1000 + "");//角色创建时间,精确到秒
         map.put(JPEventType.KEY_EVT_ROLE_LEVEL, level);//角色等级
-        map.put(JPEventType.KEY_EVT_ROLE_VIP_LEVEL, "1");//VIP等级
+        map.put(JPEventType.KEY_EVT_ROLE_VIP_LEVEL, vipLevel);//VIP等级
         FoyoJPStatistic.getInstance().createRole(map);
     }
 
     @YFunction(name = "fyrestar_enter_game")
-    public void OnEnterGame(String roleId, String roleName, String level, String coinNum) {
+    public void OnEnterGame(String roleId, String roleName, String level, String coinNum, String vipLevel) {
         HashMap map = new HashMap<String, String>();
         map.put(JPEventType.KEY_EVT_SERVERID, "0");//区服id
         map.put(JPEventType.KEY_EVT_ROLEID, roleId);//角色id
@@ -229,13 +229,13 @@ public class FyrestarInterface extends YmnPluginWrapper {
         map.put(JPEventType.KEY_EVT_ROLENAME, roleName);//角色名称
         map.put(JPEventType.KEY_EVT_ROLE_CREATE_TIME, System.currentTimeMillis()/1000 + "");//角色创建时间,精确到秒
         map.put(JPEventType.KEY_EVT_ROLE_LEVEL, level);//角色等级
-        map.put(JPEventType.KEY_EVT_ROLE_VIP_LEVEL, "1");//VIP等级
+        map.put(JPEventType.KEY_EVT_ROLE_VIP_LEVEL, vipLevel);//VIP等级
         map.put(JPEventType.KEY_EVT_ROLE_COIN_NUM, coinNum);//角色货币数,角色的主要货币剩余量
         FoyoJPStatistic.getInstance().enterGame(map);
     }
 
     @YFunction(name = "fyrestar_role_levelup")
-    public void OnRoleLevelUp(String roleId, String roleName, String levelBefore, String level) {
+    public void OnRoleLevelUp(String roleId, String roleName, String levelBefore, String level, String vipLevel) {
         HashMap map = new HashMap<String, String>();
         map.put(JPEventType.KEY_EVT_SERVERID, "0");//区服id
         map.put(JPEventType.KEY_EVT_ROLEID, roleId);//角色id
@@ -245,7 +245,7 @@ public class FyrestarInterface extends YmnPluginWrapper {
         map.put(JPEventType.KEY_EVT_ROLENAME, roleName);//角色名称
         map.put(JPEventType.KEY_EVT_ROLE_LEVLE_BEFORE, levelBefore);//升级前的角色等级
         map.put(JPEventType.KEY_EVT_ROLE_LEVEL, level);//角色等级
-        map.put(JPEventType.KEY_EVT_ROLE_VIP_LEVEL, "1");//VIP等级
+        map.put(JPEventType.KEY_EVT_ROLE_VIP_LEVEL, vipLevel);//VIP等级
         FoyoJPStatistic.getInstance().roleLevelUp(map);
     }
 
