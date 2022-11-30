@@ -91,13 +91,6 @@ public class FyrestarInterface extends YmnPluginWrapper {
                 sendResult(ACTION_RET_INIT_FAIL, v.optString("message"));
             }
         });
-
-        if(TextUtils.isEmpty(getPreferences(getActivity(), "isFirst")))
-        {
-            OnActiveApp();
-            savePreferences(getActivity(), "isFirst", "0");
-        }
-        onLogEvent("1001", "");
     }
 
     @YFunction(name = "fyrestar_login")
@@ -313,20 +306,5 @@ public class FyrestarInterface extends YmnPluginWrapper {
         }
 
         return null;
-    }
-
-    public static void savePreferences(Context var0, String var1, String var2) {
-        try {
-            SharedPreferences var3 = var0.getSharedPreferences("native_support", 0);
-            var3.edit().putString(var1, var2).apply();
-        } catch (Exception var4) {
-            var4.printStackTrace();
-        }
-
-    }
-
-    public static String getPreferences(Context var0, String var1) {
-        SharedPreferences var2 = var0.getSharedPreferences("native_support", 0);
-        return var2.getString(var1, (String) null);
     }
 }
