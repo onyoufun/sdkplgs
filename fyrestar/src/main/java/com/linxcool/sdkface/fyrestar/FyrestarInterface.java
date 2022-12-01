@@ -51,6 +51,8 @@ public class FyrestarInterface extends YmnPluginWrapper {
     private static final int YMNADMOB_REWARD_UNREADY = 12314;// 奖励广告未准备完毕
     private static final int YMNADMOB_REWARD_SHOWFAILD = 12315;// 奖励广告未准备完毕
 
+    private Boolean isLoginRetry = false;
+
     @Override
     public String getPluginId() {
         return "601";
@@ -106,6 +108,14 @@ public class FyrestarInterface extends YmnPluginWrapper {
             public void onResult(JSONObject result) {
                 if(result.optInt("code") == 1) {
                     sendResult(ACTION_RET_LOGIN_SUCCESS, result.optJSONObject("data").toString());
+                } else if(result.optInt("code") == -2209 || result.optInt("code") == -2218){
+                    FYSDK.getInstance().clearUserCache();
+                    if(isLoginRetry)
+                        sendResult(ACTION_RET_LOGIN_FAIL, result.optString("message"));
+                    else {
+                        onLogin(loginType);
+                        isLoginRetry = true;
+                    }
                 } else {
                     sendResult(ACTION_RET_LOGIN_FAIL, result.optString("message"));
                 }
