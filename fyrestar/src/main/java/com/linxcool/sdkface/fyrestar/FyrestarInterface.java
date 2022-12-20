@@ -123,6 +123,11 @@ public class FyrestarInterface extends YmnPluginWrapper {
         });
     }
 
+    @YFunction(name = "fyrestar_logout")
+    public void onLogout() {
+        FYSDK.getInstance().logout();
+    }
+
     @YFunction(name = "fyrestar_pay")
     public void onPay(String productId, String productName, String orderId, String roleId, String roleName, String payType, String ext) {
         FoyoOrderParam op = new FoyoOrderParam();
