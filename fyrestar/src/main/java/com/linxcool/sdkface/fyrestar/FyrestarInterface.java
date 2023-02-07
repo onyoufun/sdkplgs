@@ -83,12 +83,7 @@ public class FyrestarInterface extends YmnPluginWrapper {
             if(v.optInt("code") == 1) {
                 sendResult(ACTION_RET_INIT_SUCCESS, "onSuccess");
                 //广告配置初始化
-                String placementIds = getPropertie("admobPlacementId");
-                String[] array = placementIds.split(";");
-                TreeMap treeMap = new TreeMap();
-                treeMap.put("adIds",Arrays.asList(array));
-                FYSDK.getInstance().setAdConfig(treeMap);
-                OnLoadRewardAd();
+                FYSDK.getInstance().setAdConfig();
             } else {
                 sendResult(ACTION_RET_INIT_FAIL, v.optString("message"));
             }
@@ -190,25 +185,18 @@ public class FyrestarInterface extends YmnPluginWrapper {
 
     @YFunction(name = "fyrestar_show_rewardad")
     public void OnShowRewardAd(String roleId) {
-        if(isAdReady){
-            //展示广告
-            TreeMap treeMap = new TreeMap();
-            treeMap.put("server_id","0");
-            treeMap.put("role_id",roleId);
-            treeMap.put("cp_oid",System.currentTimeMillis() + "");
-            FYSDK.getInstance().showAd(treeMap,result->{
-                if(result.optInt("code") == 1) {
-                    sendResult(YMNADMOB_REWARD_GETREWARD, result.optString("message"));
-                } else {
-                    sendResult(YMNADMOB_REWARD_SHOWFAILD, result.optString("message"));
-                }
-                OnLoadRewardAd();
-            });
-        } else {
-            sendResult(YMNADMOB_REWARD_UNREADY, "Ad is not load");
-            OnLoadRewardAd();
-        }
-        isAdReady = false;
+        //展示广告
+        TreeMap treeMap = new TreeMap();
+        treeMap.put("server_id","0");
+        treeMap.put("role_id",roleId);
+        treeMap.put("cp_oid",System.currentTimeMillis() + "");
+        FYSDK.getInstance().showAd(treeMap,result->{
+            if(result.optInt("code") == 1) {
+                sendResult(YMNADMOB_REWARD_GETREWARD, result.optString("message"));
+            } else {
+                sendResult(YMNADMOB_REWARD_SHOWFAILD, result.optString("message"));
+            }
+        });
     }
 
     @YFunction(name = "fyrestar_role_create")
