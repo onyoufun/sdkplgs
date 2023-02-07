@@ -66,9 +66,6 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.helpshift:android-helpshift-aar:7.11.1'
 
-//paypal 注意:上架google play的项目不要加入此依赖
-    implementation('com.paypal.checkout:android-sdk:0.7.0')
-
 //facebook
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 
