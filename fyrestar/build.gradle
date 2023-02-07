@@ -31,34 +31,51 @@ dependencies {
     //google&firebase相关
     implementation 'com.google.android.gms:play-services-auth:20.3.0'
     implementation 'com.google.android.gms:play-services-base:18.1.0'
-
-    //firebase
+//google FCM相关 start
     implementation 'com.google.firebase:firebase-messaging:23.1.0'
+//Analytics
+    implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'com.firebase:firebase-jobdispatcher:0.5.2'
+//远程配置
     implementation 'com.google.firebase:firebase-config:21.2.0'
-    implementation 'com.google.firebase:firebase-analytics:21.1.0'
-    implementation 'com.google.firebase:firebase-config:18.0.0'
-
-    //googlePay
+//googlePay
     implementation "com.android.billingclient:billing:4.0.0"
 
-    //admob
+//ironSource
+    implementation 'com.ironsource.sdk:mediationsdk:7.2.6'
+// Add AdMob and Ad Manager Network
     implementation 'com.google.android.gms:play-services-ads:21.3.0'
-    implementation 'com.google.ads.mediation:facebook:6.11.0.1'
+    implementation 'com.ironsource.adapters:admobadapter:4.3.33'
+// Add Applovin Network
+    implementation 'com.ironsource.adapters:applovinadapter:4.3.36'
+    implementation 'com.applovin:applovin-sdk:11.6.1'
+// Add Facebook Network
+    implementation 'com.ironsource.adapters:facebookadapter:4.3.38'
+    implementation 'com.facebook.android:audience-network-sdk:6.12.0'
+// Add UnityAds Network
+    implementation 'com.ironsource.adapters:unityadsadapter:4.3.24'
+    implementation 'com.unity3d.ads:unity-ads:4.4.1'
+// Add Vungle Network
+    implementation 'com.ironsource.adapters:vungleadapter:4.3.18'
+    implementation 'com.vungle:publisher-sdk-android:6.12.0'
 
-    // helpshit
+
+// helpshit
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.helpshift:android-helpshift-aar:7.11.1'
 
-    //facebook
+//paypal 注意:上架google play的项目不要加入此依赖
+    implementation('com.paypal.checkout:android-sdk:0.7.0')
+
+//facebook
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 
-    //twitter
+//twitter
     implementation 'com.twitter.sdk.android:twitter:3.1.1'
 
-    //other
+//other
     implementation 'androidx.multidex:multidex:2.0.0'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
