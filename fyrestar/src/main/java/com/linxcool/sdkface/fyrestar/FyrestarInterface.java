@@ -52,6 +52,7 @@ public class FyrestarInterface extends YmnPluginWrapper {
     private static final int YMNADMOB_REWARD_SHOWFAILD = 12315;// 奖励广告未准备完毕
 
     private Boolean isLoginRetry = false;
+    private String serverId = "0";
 
     @Override
     public String getPluginId() {
@@ -118,6 +119,11 @@ public class FyrestarInterface extends YmnPluginWrapper {
         });
     }
 
+    @YFunction(name = "fyrestar_set_serverid")
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
+    }
+
     @YFunction(name = "fyrestar_pay")
     public void onPay(String productId, String productName, String orderId, String roleId, String roleName, String payType, String ext) {
         FoyoOrderParam op = new FoyoOrderParam();
@@ -127,7 +133,7 @@ public class FyrestarInterface extends YmnPluginWrapper {
         op.setRoleId(roleId);
         op.setRoleName(roleName);
         op.setRolelevel(1);//玩家角色等级
-        op.setSId("0");//区服ID
+        op.setSId(serverId);//区服ID
         op.setCpOrderId(orderId);
 
         //商品类型包含:PayType.INAPP->内购支付 int INAPP = 1;
@@ -182,7 +188,7 @@ public class FyrestarInterface extends YmnPluginWrapper {
     public void OnShowRewardAd(String roleId) {
         //展示广告
         TreeMap treeMap = new TreeMap();
-        treeMap.put("server_id","0");
+        treeMap.put("server_id",serverId);
         treeMap.put("role_id",roleId);
         treeMap.put("cp_oid",System.currentTimeMillis() + "");
         FYSDK.getInstance().showAd(treeMap,result->{
@@ -197,7 +203,7 @@ public class FyrestarInterface extends YmnPluginWrapper {
     @YFunction(name = "fyrestar_role_create")
     public void OnRoleCreate(String roleId, String roleName, String level, String vipLevel) {
         HashMap map = new HashMap<String, String>();
-        map.put(JPEventType.KEY_EVT_SERVERID, "0");//区服id
+        map.put(JPEventType.KEY_EVT_SERVERID, serverId);//区服id
         map.put(JPEventType.KEY_EVT_ROLEID, roleId);//角色id
         map.put(JPEventType.KEY_EVT_AF_PUID, "");//AppsFlyer的设备ID，默认为""
         map.put(JPEventType.KEY_EVT_AF_CHANNEL, "");//AppsFlyer的渠道号，默认为""
@@ -212,7 +218,7 @@ public class FyrestarInterface extends YmnPluginWrapper {
     @YFunction(name = "fyrestar_enter_game")
     public void OnEnterGame(String roleId, String roleName, String level, String coinNum, String vipLevel) {
         HashMap map = new HashMap<String, String>();
-        map.put(JPEventType.KEY_EVT_SERVERID, "0");//区服id
+        map.put(JPEventType.KEY_EVT_SERVERID, serverId);//区服id
         map.put(JPEventType.KEY_EVT_ROLEID, roleId);//角色id
         map.put(JPEventType.KEY_EVT_AF_PUID, "");//AppsFlyer的设备ID，默认为""
         map.put(JPEventType.KEY_EVT_AF_CHANNEL, "");//AppsFlyer的渠道号，默认为""
@@ -228,7 +234,7 @@ public class FyrestarInterface extends YmnPluginWrapper {
     @YFunction(name = "fyrestar_role_levelup")
     public void OnRoleLevelUp(String roleId, String roleName, String levelBefore, String level, String vipLevel) {
         HashMap map = new HashMap<String, String>();
-        map.put(JPEventType.KEY_EVT_SERVERID, "0");//区服id
+        map.put(JPEventType.KEY_EVT_SERVERID, serverId);//区服id
         map.put(JPEventType.KEY_EVT_ROLEID, roleId);//角色id
         map.put(JPEventType.KEY_EVT_AF_PUID, "");//AppsFlyer的设备ID，默认为""
         map.put(JPEventType.KEY_EVT_AF_CHANNEL, "");//AppsFlyer的渠道号，默认为""
