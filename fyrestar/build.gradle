@@ -27,8 +27,9 @@ android {
 dependencies {
     implementation "com.github.linxcool.sdkface:platform:$version_sdkface"
     //导入sdk
-    compileOnly fileTree(dir: 'libs', include: ['*.jar','*.aar'])
-    //google&firebase相关
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
+
+//google&firebase相关
     implementation 'com.google.android.gms:play-services-auth:20.3.0'
     implementation 'com.google.android.gms:play-services-base:18.1.0'
 //google FCM相关 start
@@ -39,26 +40,19 @@ dependencies {
 //远程配置
     implementation 'com.google.firebase:firebase-config:21.2.0'
 //googlePay
-    implementation "com.android.billingclient:billing:4.0.0"
+    implementation "com.android.billingclient:billing:5.2.0"
 
-//ironSource
-    implementation 'com.ironsource.sdk:mediationsdk:7.2.6'
-// Add AdMob and Ad Manager Network
-    implementation 'com.google.android.gms:play-services-ads:21.3.0'
-    implementation 'com.ironsource.adapters:admobadapter:4.3.33'
-// Add Applovin Network
-    implementation 'com.ironsource.adapters:applovinadapter:4.3.36'
-    implementation 'com.applovin:applovin-sdk:11.6.1'
-// Add Facebook Network
-    implementation 'com.ironsource.adapters:facebookadapter:4.3.38'
-    implementation 'com.facebook.android:audience-network-sdk:6.12.0'
-// Add UnityAds Network
-    implementation 'com.ironsource.adapters:unityadsadapter:4.3.24'
-    implementation 'com.unity3d.ads:unity-ads:4.4.1'
-// Add Vungle Network
-    implementation 'com.ironsource.adapters:vungleadapter:4.3.18'
-    implementation 'com.vungle:publisher-sdk-android:6.12.0'
+//admob
+    implementation 'com.google.android.gms:play-services-ads:21.5.0'
+    implementation 'com.google.ads.mediation:facebook:6.13.7.0'
+    implementation 'com.google.ads.mediation:applovin:11.7.1.0'
+    implementation 'com.google.ads.mediation:ironsource:7.2.7.0'
+    implementation 'com.google.ads.mediation:vungle:6.12.1.0'
+    implementation 'com.unity3d.ads:unity-ads:4.6.1'
+    implementation 'com.google.ads.mediation:unity:4.6.1.0'
 
+//appsflyer
+    implementation 'com.appsflyer:af-android-sdk:6.9.0'
 
 // helpshit
     implementation 'com.google.android.material:material:1.4.0'
@@ -67,12 +61,13 @@ dependencies {
     implementation 'com.helpshift:android-helpshift-aar:7.11.1'
 
 //facebook
-    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+    implementation 'com.facebook.android:facebook-android-sdk:16.0.1'
 
 //twitter
     implementation 'com.twitter.sdk.android:twitter:3.1.1'
 
 //other
+    implementation 'com.github.wendux:DSBridge-Android:3.0.0'
     implementation 'androidx.multidex:multidex:2.0.0'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
