@@ -27,7 +27,8 @@ android {
 dependencies {
     implementation "com.github.linxcool.sdkface:platform:$version_sdkface"
     //导入sdk
-    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
+//    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
+    compileOnly fileTree(dir: "libs", include: ["*.jar", "*.aar"])
 
 //google&firebase相关
     implementation 'com.google.android.gms:play-services-auth:20.3.0'

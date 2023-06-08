@@ -9,7 +9,6 @@ import static com.linxcool.sdkface.YmnUserCode.ACTION_RET_LOGIN_SUCCESS;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -17,13 +16,11 @@ import androidx.annotation.Nullable;
 
 import com.foyoent.vjpsdk.FYSDK;
 import com.foyoent.vjpsdk.agent.common.FYPayPlatform;
-import com.foyoent.vjpsdk.agent.common.FYPlatform;
 import com.foyoent.vjpsdk.agent.listener.FYCallback;
 import com.foyoent.vjpsdk.agent.model.FoyoOrderParam;
-import com.foyoent.vjpsdk.agent.pay.PayType;
-import com.foyoent.vjpsdk.agent.statistics.FoyoJPStatistic;
-import com.foyoent.vjpsdk.agent.statistics.JPEventType;
-import com.linxcool.sdkface.YmnSdk;
+import com.foyoent.vjpsdk.agent.statistics.FYEvent;
+import com.foyoent.vjpsdk.agent.statistics.FYEventName;
+import com.foyoent.vjpsdk.agent.statistics.FYEventParam;
 import com.linxcool.sdkface.feature.YmnPluginWrapper;
 import com.linxcool.sdkface.feature.protocol.YFunction;
 import com.linxcool.sdkface.feature.protocol.YPlugin;
@@ -83,8 +80,12 @@ public class FyrestarInterface extends YmnPluginWrapper {
         FYSDK.getInstance().init(getActivity(), v -> {
             if(v.optInt("code") == 1) {
                 sendResult(ACTION_RET_INIT_SUCCESS, "onSuccess");
+                FYEvent.INSTANCE.logEvent(FYEventName.opengame);
                 //广告配置初始化
-                FYSDK.getInstance().setAdConfig();
+                List<String> adIds = Arrays.asList("ca-app-pub-4770705390206387/6285601589");
+                TreeMap treeMap = new TreeMap();
+                treeMap.put("adIds",adIds);
+                FYSDK.getInstance().setAdConfig(treeMap);
                 OnLoadRewardAd();
             } else {
                 sendResult(ACTION_RET_INIT_FAIL, v.optString("message"));
@@ -161,9 +162,9 @@ public class FyrestarInterface extends YmnPluginWrapper {
         if (!TextUtils.isEmpty(eventParams)) {
             HashMap<String, String> eventValues = new HashMap<String, String>();
             eventValues = getMap(eventParams);
-            FoyoJPStatistic.getInstance().customEvent(name, eventValues);
+            FYEvent.INSTANCE.customEvent(name, eventValues);
         } else {
-            FoyoJPStatistic.getInstance().customEvent(name);
+            FYEvent.INSTANCE.customEvent(name);
         }
     }
 
@@ -210,63 +211,39 @@ public class FyrestarInterface extends YmnPluginWrapper {
     @YFunction(name = "fyrestar_role_create")
     public void OnRoleCreate(String roleId, String roleName, String level, String vipLevel) {
         HashMap map = new HashMap<String, String>();
-        map.put(JPEventType.KEY_EVT_SERVERID, serverId);//区服id
-        map.put(JPEventType.KEY_EVT_ROLEID, roleId);//角色id
-        map.put(JPEventType.KEY_EVT_AF_PUID, "");//AppsFlyer的设备ID，默认为""
-        map.put(JPEventType.KEY_EVT_AF_CHANNEL, "");//AppsFlyer的渠道号，默认为""
-        map.put(JPEventType.KEY_EVT_SERVERNAME, "server1");//区服名称
-        map.put(JPEventType.KEY_EVT_ROLENAME, roleName);//角色名称
-        map.put(JPEventType.KEY_EVT_ROLE_CREATE_TIME, System.currentTimeMillis()/1000 + "");//角色创建时间,精确到秒
-        map.put(JPEventType.KEY_EVT_ROLE_LEVEL, level);//角色等级
-        map.put(JPEventType.KEY_EVT_ROLE_VIP_LEVEL, vipLevel);//VIP等级
-        FoyoJPStatistic.getInstance().createRole(map);
+        map.put(FYEventParam.role_create_time, System.currentTimeMillis()/1000 + "");//创角时间，UNIX时间戳，如：1498810807
+        map.put(FYEventParam.level, level);//角色等级
+        FYEvent.INSTANCE.logEvent(FYEventName.createrole,map);
     }
 
     @YFunction(name = "fyrestar_enter_game")
     public void OnEnterGame(String roleId, String roleName, String level, String coinNum, String vipLevel) {
-        HashMap map = new HashMap<String, String>();
-        map.put(JPEventType.KEY_EVT_SERVERID, serverId);//区服id
-        map.put(JPEventType.KEY_EVT_ROLEID, roleId);//角色id
-        map.put(JPEventType.KEY_EVT_AF_PUID, "");//AppsFlyer的设备ID，默认为""
-        map.put(JPEventType.KEY_EVT_AF_CHANNEL, "");//AppsFlyer的渠道号，默认为""
-        map.put(JPEventType.KEY_EVT_SERVERNAME, "server1");//区服名称
-        map.put(JPEventType.KEY_EVT_ROLENAME, roleName);//角色名称
-        map.put(JPEventType.KEY_EVT_ROLE_CREATE_TIME, System.currentTimeMillis()/1000 + "");//角色创建时间,精确到秒
-        map.put(JPEventType.KEY_EVT_ROLE_LEVEL, level);//角色等级
-        map.put(JPEventType.KEY_EVT_ROLE_VIP_LEVEL, vipLevel);//VIP等级
-        map.put(JPEventType.KEY_EVT_ROLE_COIN_NUM, coinNum);//角色货币数,角色的主要货币剩余量
-        FoyoJPStatistic.getInstance().enterGame(map);
+        HashMap map = new HashMap<FYEventParam, String>();
+        map.put(FYEventParam.role_create_time, System.currentTimeMillis()/1000 + "");//创角时间，UNIX时间戳，如：1498810807
+        map.put(FYEventParam.level, level);//角色等级
+        FYEvent.INSTANCE.logEvent(FYEventName.entergame,map);
     }
 
     @YFunction(name = "fyrestar_role_levelup")
     public void OnRoleLevelUp(String roleId, String roleName, String levelBefore, String level, String vipLevel) {
-        HashMap map = new HashMap<String, String>();
-        map.put(JPEventType.KEY_EVT_SERVERID, serverId);//区服id
-        map.put(JPEventType.KEY_EVT_ROLEID, roleId);//角色id
-        map.put(JPEventType.KEY_EVT_AF_PUID, "");//AppsFlyer的设备ID，默认为""
-        map.put(JPEventType.KEY_EVT_AF_CHANNEL, "");//AppsFlyer的渠道号，默认为""
-        map.put(JPEventType.KEY_EVT_SERVERNAME, "server1");//区服名称
-        map.put(JPEventType.KEY_EVT_ROLENAME, roleName);//角色名称
-        map.put(JPEventType.KEY_EVT_ROLE_LEVLE_BEFORE, levelBefore);//升级前的角色等级
-        map.put(JPEventType.KEY_EVT_ROLE_LEVEL, level);//角色等级
-        map.put(JPEventType.KEY_EVT_ROLE_VIP_LEVEL, vipLevel);//VIP等级
-        FoyoJPStatistic.getInstance().roleLevelUp(map);
+        HashMap map = new HashMap<FYEventParam, String>();
+        map.put(FYEventParam.level_before, levelBefore);//升级前的等级
+        map.put(FYEventParam.level, level);//升级后的等级
+        FYEvent.INSTANCE.logEvent(FYEventName.levelup,map);
     }
 
     @YFunction(name = "fyrestar_tutorial")
     public void OnTutorial(String level, String step) {
-        HashMap map = new HashMap<String, String>();
-        map.put(JPEventType.KEY_EVT_ROLE_LEVEL, level);//角色等级
-        map.put(JPEventType.KEY_EVT_NOVICE_GUIDE_STEPS, step);//新手引导步骤
-        FoyoJPStatistic.getInstance().tutorial(map);
+        FYEvent.INSTANCE.logEvent(FYEventName.completetutorial);
     }
+
     @YFunction(name = "fyrestar_compelete_load")
     public void OnCompleteLoadRes() {
-        FoyoJPStatistic.getInstance().completeLoadRes();
+        FYEvent.INSTANCE.logEvent(FYEventName.loadingcomplete);
     }
     @YFunction(name = "fyrestar_active_app")
     public void OnActiveApp() {
-        FoyoJPStatistic.getInstance().activeApp();
+        FYEvent.INSTANCE.logEvent(FYEventName.install);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
