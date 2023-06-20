@@ -19,6 +19,7 @@ import com.foyoent.vjpsdk.agent.common.FYPayPlatform;
 import com.foyoent.vjpsdk.agent.listener.FYCallback;
 import com.foyoent.vjpsdk.agent.model.FoyoOrderParam;
 import com.foyoent.vjpsdk.agent.statistics.FYEvent;
+import com.foyoent.vjpsdk.agent.statistics.FYEventCommontParam;
 import com.foyoent.vjpsdk.agent.statistics.FYEventName;
 import com.foyoent.vjpsdk.agent.statistics.FYEventParam;
 import com.linxcool.sdkface.feature.YmnPluginWrapper;
@@ -150,7 +151,8 @@ public class FyrestarInterface extends YmnPluginWrapper {
 
         FYSDK.getInstance().foyoPay(op, result->{
             if(result.optInt("code") == 1) {
-                sendResult(PAYRESULT_SUCCESS, result.optJSONObject("data").toString());
+                JSONObject data = result.optJSONObject("data");
+                sendResult(PAYRESULT_SUCCESS, data instanceof JSONObject ? data.toString() : "");
             } else {
                 sendResult(PAYRESULT_FAIL, result.optString("message"));
             }
@@ -207,6 +209,15 @@ public class FyrestarInterface extends YmnPluginWrapper {
         }
 
     }
+    @YFunction(name = "fyrestar_role_login")
+    public void OnRoleLogin(String roleId, String roleName) {
+        HashMap map = new HashMap<FYEventCommontParam, String>();
+        map.put(FYEventCommontParam.sid, serverId);//区服id
+        map.put(FYEventCommontParam.roleid, roleId);//角色id
+        map.put(FYEventCommontParam.sname, serverId);//区服名称
+        map.put(FYEventCommontParam.rolename, roleName);//角色名称
+        FYEvent.INSTANCE.setCommontParam(map);
+    }
 
     @YFunction(name = "fyrestar_role_create")
     public void OnRoleCreate(String roleId, String roleName, String level, String vipLevel) {
@@ -241,10 +252,79 @@ public class FyrestarInterface extends YmnPluginWrapper {
     public void OnCompleteLoadRes() {
         FYEvent.INSTANCE.logEvent(FYEventName.loadingcomplete);
     }
+
     @YFunction(name = "fyrestar_active_app")
     public void OnActiveApp() {
         FYEvent.INSTANCE.logEvent(FYEventName.install);
     }
+
+    @YFunction(name = "fyrestar_stage_start")
+    public void OnStageStart(String stageId) {
+        HashMap map = new HashMap<FYEventParam, String>();
+        map.put(FYEventParam.stage_id , stageId);//关卡ID
+        FYEvent.INSTANCE.logEvent(FYEventName.stagestart,map);
+    }
+
+    @YFunction(name = "fyrestar_stage_success")
+    public void OnStageSuccss(String stageId, String duration) {
+        HashMap map = new HashMap<FYEventParam, String>();
+        map.put(FYEventParam.stage_id, stageId);//关卡ID
+        map.put(FYEventParam.duration, duration);//时长，单位：秒
+        FYEvent.INSTANCE.logEvent(FYEventName.stagesuc,map);
+    }
+
+    @YFunction(name = "fyrestar_stage_fail")
+    public void OnStageFail(String stageId, String duration) {
+        HashMap map = new HashMap<FYEventParam, String>();
+        map.put(FYEventParam.stage_id, stageId);//关卡ID
+        map.put(FYEventParam.duration, duration);//时长，单位：秒
+        FYEvent.INSTANCE.logEvent(FYEventName.stagefailed,map);
+    }
+
+    @YFunction(name = "fyrestar_adview")
+    public void OnAdview() {
+        FYEvent.INSTANCE.logEvent(FYEventName.adview);
+    }
+
+    @YFunction(name = "fyrestar_adview_count")
+    public void OnAdviewCount(int count) {
+        if(count == 10)
+            FYEvent.INSTANCE.logEvent(FYEventName.adview_10);//观看广告10次
+        else if(count == 30)
+            FYEvent.INSTANCE.logEvent(FYEventName.adview_30);//观看广告30次
+        else if(count == 50)
+            FYEvent.INSTANCE.logEvent(FYEventName.adview_50);//观看广告50次
+    }
+
+    @YFunction(name = "fyrestar_purchase_click")
+    public void OnPurchaseClick(String goodsId) {
+        HashMap map = new HashMap<FYEventParam, String>();
+        map.put(FYEventParam.goods_id , goodsId);//商品ID
+        FYEvent.INSTANCE.logEvent(FYEventName.purchaseclick,map);
+    }
+
+    @YFunction(name = "fyrestar_purchase_fail")
+    public void OnPurchaseFail(String goodsId) {
+        HashMap map = new HashMap<FYEventParam, String>();
+        map.put(FYEventParam.goods_id , goodsId);//商品ID
+        FYEvent.INSTANCE.logEvent(FYEventName.purchasefailed,map);
+    }
+
+    @YFunction(name = "fyrestar_app_rate")
+    public void OnAppRate() {
+        FYEvent.INSTANCE.logEvent(FYEventName.af_rate);
+    }
+
+    @YFunction(name = "fyrestar_shop_open")
+    public void OnShopOpen() {
+        FYEvent.INSTANCE.logEvent(FYEventName.shopopen);
+    }
+
+    @YFunction(name = "fyrestar_shop_close")
+    public void OnShopClose() {
+        FYEvent.INSTANCE.logEvent(FYEventName.shopclose);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(!FYSDK.getInstance().onActivityResult(requestCode,resultCode,data)){
@@ -273,6 +353,12 @@ public class FyrestarInterface extends YmnPluginWrapper {
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         FYSDK.getInstance().onNewIntent(getActivity(),intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        FYSDK.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     public HashMap<String, String> getMap(String jsonString) {
