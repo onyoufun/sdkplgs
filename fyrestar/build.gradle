@@ -41,7 +41,7 @@ dependencies {
 //远程配置
     implementation 'com.google.firebase:firebase-config:21.2.0'
 //googlePay
-    implementation "com.android.billingclient:billing:5.2.0"
+    implementation "com.android.billingclient:billing:6.0.0"
 
 //admob
     implementation 'com.google.android.gms:play-services-ads:21.5.0'
