@@ -1,15 +1,26 @@
 package com.linxcool.sdkface.firebase;
 
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.linxcool.sdkface.feature.YmnPluginWrapper;
 import com.linxcool.sdkface.feature.protocol.YFunction;
 import com.linxcool.sdkface.feature.protocol.YPlugin;
+import com.linxcool.sdkface.util.Logger;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -94,4 +105,34 @@ public class FirebaseInterface extends YmnPluginWrapper {
         }
     }
 
+    @YFunction(name = "ymnfirebase_get_messaging_token")
+    public void getMessagingToken(String targetCode) {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()) {
+                    return;
+                }
+                String token = task.getResult();
+                sendResult(Integer.parseInt(targetCode), token);
+            }
+        });
+    }
+
+    @YFunction(name = "ymnfirebase_check_messaging_permission")
+    public void checkMessagingPermission() {
+        if (Build.VERSION.SDK_INT >= 33) {
+            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                Logger.i("POST_NOTIFICATIONS PERMISSION_REQUEST");
+                int requestCode = "ymnfirebase_check_messaging_permission".hashCode();
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
+                        Math.abs(requestCode));
+            } else {
+                Logger.i("POST_NOTIFICATIONS PERMISSION_GRANTED");
+            }
+        } else {
+            Logger.i("POST_NOTIFICATIONS Build.VERSION.SDK_INT = " + Build.VERSION.SDK_INT);
+        }
+    }
 }

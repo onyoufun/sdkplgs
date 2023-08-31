@@ -1,5 +1,8 @@
 package com.linxcool.sdkface.sample;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -7,13 +10,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.linxcool.sdkface.YmnCode;
+import androidx.core.content.ContextCompat;
+
 import com.linxcool.sdkface.YmnSdk;
 import com.linxcool.sdkface.feature.protocol.IPaymentFeature;
-import com.linxcool.sdkface.ironsource.IronSourceInterface;
 import com.linxcool.sdkface.util.Logger;
 
-import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 /**
@@ -33,7 +35,8 @@ public class GameActivity extends SdkWrapperActivity implements Handler.Callback
         layoutPlugins = (LinearLayout) findViewById(R.id.layoutPlugins);
         refreshViews();
 
-        YmnSdk.callFunction("ymnis_request_reward_ad");
+        YmnSdk.callFunction("ymnfirebase_check_messaging_permission");
+
     }
 
     public void refreshViews() {
@@ -85,6 +88,17 @@ public class GameActivity extends SdkWrapperActivity implements Handler.Callback
             @Override
             public void onClick(View view) {
                 YmnSdk.callFunction("facebook_share", "1", "http://wwww.baidu.com", "quote");
+            }
+        });
+
+        FunctionViewFactory.registAdapter(new FunctionViewAdapter() {
+            @Override
+            public String getFunctionText() {
+                return "Firebase-Token";
+            }
+            @Override
+            public void onClick(View view) {
+                YmnSdk.callFunction("ymnfirebase_get_messaging_token", "123456");
             }
         });
 
@@ -147,6 +161,10 @@ public class GameActivity extends SdkWrapperActivity implements Handler.Callback
             case YmnSdk.ACTION_RET_ACCOUNTSWITCH_SUCCESS:
                 Logger.d("此时游戏应当切换到登录场景");
                 break;
+
+            case 123456:
+                toast("Token  = " + msg);
+                Logger.d("Token = " + msg);
         }
     }
 
@@ -154,5 +172,6 @@ public class GameActivity extends SdkWrapperActivity implements Handler.Callback
         Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         Logger.d(msg);
     }
+
 
 }

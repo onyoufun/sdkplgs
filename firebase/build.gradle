@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.library'
-    // id 'com.google.gms.google-services' version '4.3.10'
+    id 'com.google.gms.google-services' version '4.3.10'
 }
 
 android {
@@ -32,4 +32,8 @@ dependencies {
     compileOnly "com.google.code.gson:gson:2.8.5"
 
     implementation "com.github.linxcool.sdkface:platform:$version_sdkface"
+
+    // Clound Messenging
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'androidx.activity:activity:1.2.3'
 }
