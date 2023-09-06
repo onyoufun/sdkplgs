@@ -22,7 +22,7 @@ public class AppsflyerInterface extends YmnPluginWrapper {
 
     @Override
     public String getPluginId() {
-        return "501";
+        return "402";
     }
 
     @Override

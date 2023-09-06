@@ -11,9 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.foyoent.vjpsdk.FYSDK;
 import com.foyoent.vjpsdk.agent.common.FYPayPlatform;
 import com.foyoent.vjpsdk.agent.listener.FYCallback;
@@ -326,7 +323,7 @@ public class FyrestarInterface extends YmnPluginWrapper {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(!FYSDK.getInstance().onActivityResult(requestCode,resultCode,data)){
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -356,7 +353,7 @@ public class FyrestarInterface extends YmnPluginWrapper {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         FYSDK.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
     }

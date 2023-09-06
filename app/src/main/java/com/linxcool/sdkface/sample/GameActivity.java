@@ -94,11 +94,11 @@ public class GameActivity extends SdkWrapperActivity implements Handler.Callback
         FunctionViewFactory.registAdapter(new FunctionViewAdapter() {
             @Override
             public String getFunctionText() {
-                return "Firebase-Token";
+                return "H5Game";
             }
             @Override
             public void onClick(View view) {
-                YmnSdk.callFunction("ymnfirebase_get_messaging_token", "123456");
+                YmnSdk.callFunction("minigame_load_h5game");
             }
         });
 

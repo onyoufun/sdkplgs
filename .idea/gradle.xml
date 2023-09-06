@@ -19,8 +19,10 @@
             <option value="$PROJECT_DIR$/googleplay" />
             <option value="$PROJECT_DIR$/ironsource" />
             <option value="$PROJECT_DIR$/meta" />
+            <option value="$PROJECT_DIR$/minigame" />
           </set>
         </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

@@ -3,3 +3,7 @@
 201=ironsource
 301=firebase
 401=adjust
+402=appsflyer
+601=fyrestar
+
+901=minigame
