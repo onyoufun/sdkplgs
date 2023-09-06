@@ -3,10 +3,8 @@ package com.linxcool.sdkface.minigame;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -18,29 +16,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ryan.github.view.FastWebView;
 import com.ryan.github.view.FastWebViewPool;
-import com.ryan.github.view.WebResource;
 import com.ryan.github.view.config.CacheConfig;
 import com.ryan.github.view.config.DefaultMimeTypeFilter;
 import com.ryan.github.view.config.FastCacheMode;
-import com.ryan.github.view.cookie.CookieInterceptor;
-import com.ryan.github.view.cookie.FastCookieManager;
 import com.ryan.github.view.offline.Chain;
-import com.ryan.github.view.offline.ResourceInterceptor;
 import com.ryan.github.view.utils.LogUtils;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import okhttp3.Cookie;
-import okhttp3.HttpUrl;
 
 public class WebViewActivity extends AppCompatActivity {
 
     private static final String TAG = "WebViewActivity";
     private FastWebView fastWebView;
-    private boolean sUseWebViewPool;
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface", "JavascriptInterface"})
     @Override
@@ -50,11 +39,7 @@ public class WebViewActivity extends AppCompatActivity {
         LogUtils.d("------------- start once load -------------");
 
         FastWebView.setDebug(true);
-        if (sUseWebViewPool) {
-            fastWebView = FastWebViewPool.acquire(this);
-        } else {
-            fastWebView = new FastWebView(this);
-        }
+        fastWebView = new FastWebView(this);
         fastWebView.setWebChromeClient(new MonitorWebChromeClient());
         fastWebView.setWebViewClient(new MonitorWebViewClient());
         fastWebView.setFocusable(true);
@@ -75,8 +60,7 @@ public class WebViewActivity extends AppCompatActivity {
         webSettings.setBlockNetworkImage(true);
 
         // 设置正确的cache mode以支持离线加载
-        int cacheMode = NetworkUtils.isAvailable(this) ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK;
-        webSettings.setCacheMode(cacheMode);
+        webSettings.setCacheMode(NetworkUtils.getWebCacheMode(this));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             webSettings.setAllowFileAccessFromFileURLs(true);
@@ -88,49 +72,16 @@ public class WebViewActivity extends AppCompatActivity {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         }
         CacheConfig config = new CacheConfig.Builder(this)
-                .setCacheDir(getCacheDir() + File.separator + "custom")
+                .setCacheDir(getCacheDir() + File.separator + "minigame")
                 .setExtensionFilter(new CustomMimeTypeFilter())
                 .build();
         fastWebView.setCacheMode(FastCacheMode.FORCE, config);
-        fastWebView.addResourceInterceptor(new ResourceInterceptor() {
-            @Override
-            public WebResource load(Chain chain) {
-                return chain.process(chain.getRequest());
-            }
-        });
+        fastWebView.addResourceInterceptor((Chain chain) -> chain.process(chain.getRequest()));
         fastWebView.addJavascriptInterface(this, "android");
+
         Map<String, String> headers = new HashMap<>();
         headers.put("custom", "test");
-
-        String url = "https://github.com/Ryan-Shz";
-
-        CookieSyncManager.createInstance(this);
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.setAcceptCookie(true);
-        cookieManager.removeSessionCookie();// 移除旧的[可以省略]
-        cookieManager.setCookie(url, "custom=12345678910;");
-        CookieSyncManager.getInstance().sync();
-
-        FastCookieManager fastCookieManager = fastWebView.getFastCookieManager();
-        fastCookieManager.addRequestCookieInterceptor(new CookieInterceptor() {
-            @Override
-            public List<Cookie> newCookies(HttpUrl url, List<Cookie> originCookies) {
-                for (Cookie cookie : originCookies) {
-                    Log.v(TAG, "request cookies: " + cookie.toString());
-                }
-                return originCookies;
-            }
-        });
-        fastCookieManager.addResponseCookieInterceptor(new CookieInterceptor() {
-            @Override
-            public List<Cookie> newCookies(HttpUrl url, List<Cookie> originCookies) {
-                for (Cookie cookie : originCookies) {
-                    Log.v(TAG, "response cookies: " + cookie.toString());
-                }
-                return originCookies;
-            }
-        });
-
+        String url = "https://meta-igs.web.app/bigfish/index.html";
         fastWebView.loadUrl(url, headers);
     }
 
@@ -138,11 +89,7 @@ public class WebViewActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (fastWebView != null) {
-            if (sUseWebViewPool) {
-                FastWebViewPool.release(fastWebView);
-            } else {
-                fastWebView.destroy();
-            }
+            fastWebView.destroy();
         }
     }
 

@@ -36,4 +36,5 @@ dependencies {
     implementation project(path: ':meta')
     implementation project(path: ':adjust')
     implementation project(path: ':fyrestar')
+    implementation project(path: ':minigame')
 }
