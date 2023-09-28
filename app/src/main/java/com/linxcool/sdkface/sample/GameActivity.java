@@ -62,8 +62,8 @@ public class GameActivity extends SdkWrapperActivity implements Handler.Callback
             @Override
             public void onClick(View view) {
                 LinkedHashMap<String, String> order = new LinkedHashMap<>();
-                order.put(IPaymentFeature.ARG_PRODUCT_ID, "1");
-                order.put(IPaymentFeature.ARG_TRADE_CODE, "001");
+                order.put(IPaymentFeature.ARG_PRODUCT_ID, "001");
+                order.put(IPaymentFeature.ARG_TRADE_CODE, "20230928001");
                 YmnSdk.pay(order);
             }
         });
