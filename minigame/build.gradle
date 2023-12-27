@@ -1,14 +1,13 @@
 plugins {
     id 'com.android.library'
-    // id 'com.google.gms.google-services' version '4.3.10'
 }
 
 android {
-    compileSdk COMPILE_SDK_VERSION as int
+    compileSdk 33
 
     defaultConfig {
-        minSdk MIN_SDK_VERSION as int
-        targetSdk TARGET_SDK_VERSION as int
+        minSdk 23
+        targetSdk 33
 
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -26,14 +25,9 @@ android {
 }
 
 dependencies {
-
-    implementation platform('com.google.firebase:firebase-bom:29.2.1')
-    implementation 'com.google.firebase:firebase-analytics'
-    compileOnly "com.google.code.gson:gson:2.8.5"
-
     implementation "com.github.linxcool.sdkface:platform:$version_sdkface"
-
-    // Clound Messenging
-    implementation 'com.google.firebase:firebase-messaging'
-    implementation 'androidx.activity:activity:1.2.3'
+    implementation "com.ryan.github:fastwebview:1.1.5"
+    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
 }
