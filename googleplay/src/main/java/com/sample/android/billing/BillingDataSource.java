@@ -476,30 +476,30 @@ public class BillingDataSource implements
      * @param skuType sku type, inapp or subscription, to get purchase information for.
      * @return purchases
      */
-    private List<Purchase> getPurchases(String[] skus, String skuType) {
-        Purchase.PurchasesResult pr = billingClient.queryPurchases(skuType);
-        BillingResult br = pr.getBillingResult();
-        List<Purchase> returnPurchasesList = new LinkedList<>();
-        if (br.getResponseCode() != BillingClient.BillingResponseCode.OK) {
-            Log.e(TAG, "Problem getting purchases: " + br.getDebugMessage());
-        } else {
-            List<Purchase> purchasesList = pr.getPurchasesList();
-            if (null != purchasesList) {
-                for (Purchase purchase : purchasesList) {
-                    for (String sku : skus) {
-                        for (String purchaseSku : purchase.getSkus()) {
-                            if (purchaseSku.equals(sku)) {
-                                if ( !returnPurchasesList.contains(purchase) ) {
-                                    returnPurchasesList.add(purchase);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return returnPurchasesList;
-    }
+//    private List<Purchase> getPurchases(String[] skus, String skuType) {
+//        Purchase.PurchasesResult pr = billingClient.queryPurchases(skuType);
+//        BillingResult br = pr.getBillingResult();
+//        List<Purchase> returnPurchasesList = new LinkedList<>();
+//        if (br.getResponseCode() != BillingClient.BillingResponseCode.OK) {
+//            Log.e(TAG, "Problem getting purchases: " + br.getDebugMessage());
+//        } else {
+//            List<Purchase> purchasesList = pr.getPurchasesList();
+//            if (null != purchasesList) {
+//                for (Purchase purchase : purchasesList) {
+//                    for (String sku : skus) {
+//                        for (String purchaseSku : purchase.getSkus()) {
+//                            if (purchaseSku.equals(sku)) {
+//                                if ( !returnPurchasesList.contains(purchase) ) {
+//                                    returnPurchasesList.add(purchase);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return returnPurchasesList;
+//    }
 
     /**
      * Consumes an in-app purchase. Interested listeners can watch the purchaseConsumed LiveEvent.

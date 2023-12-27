@@ -42,7 +42,7 @@ public class GooglePlayInterface extends YmnPaymentInterface implements YmnCallb
 
     @Override
     public String getSdkVersion() {
-        return "4.1.0";
+        return "5.3.0";
     }
 
     public static int GOOGLEPLAY_OWNED_SUB_SKU = 30016;
