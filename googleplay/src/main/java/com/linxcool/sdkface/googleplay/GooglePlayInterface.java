@@ -106,14 +106,22 @@ public class GooglePlayInterface extends YmnPaymentInterface implements YmnCallb
             @Override
             public void onPurchaseAcknowledged(@NonNull PurchaseInfo purchase) {
                 Logger.i("onPurchaseAcknowledged");
+                if(subscriptionIds.contains(currentSku)) {
+                    sendResult(PAYRESULT_SUCCESS,YmnDataBuilder.createJson(null).
+                            append("order_id", currentOrderId).
+                            append("sku", currentSku).
+                            append("token", purchase.getPurchaseToken()).
+                            append("google_order_id", purchase.getOrderId()).
+                            append("msg", "onPurchaseAcknowledged!").
+                            toString());
+                }
             }
 
             @Override
             public void onPurchaseConsumed(@NonNull PurchaseInfo purchase) {
-                String sku = purchase.getOrderId();
                 sendResult(PAYRESULT_SUCCESS,YmnDataBuilder.createJson(null).
                         append("order_id", currentOrderId).
-                        append("sku", sku).
+                        append("sku", currentSku).
                         append("token", purchase.getPurchaseToken()).
                         append("google_order_id", purchase.getOrderId()).
                         append("msg", "Pay and consumed purchases success!").
@@ -131,7 +139,11 @@ public class GooglePlayInterface extends YmnPaymentInterface implements YmnCallb
                         sendResult(PAYRESULT_CANCEL, "user pressed back or canceled a dialog");
                         break;
                     case ITEM_ALREADY_OWNED:
-                        sendResult(30016, currentSku);
+                        sendResult(30016, YmnDataBuilder.createJson(null).
+                                append("order_id", currentOrderId).
+                                append("sku", currentSku).
+                                append("msg", "ITEM_ALREADY_OWNED").
+                                toString());
                         break;
                     default:
                         sendResult(PAYRESULT_FAIL, "errorType = " + response.getErrorType());
