@@ -53,6 +53,7 @@ public class GooglePlayInterface extends YmnPaymentInterface implements YmnCallb
     private List<String> consumableIds;
     private List<String> subscriptionIds;
     private String currentOrderId;
+    private String currentSku;
 
     public void formatSkus(String skus, String subSkus) {
         if(skus != null && skus.length() > 0) {
@@ -129,6 +130,9 @@ public class GooglePlayInterface extends YmnPaymentInterface implements YmnCallb
                     case USER_CANCELED:
                         sendResult(PAYRESULT_CANCEL, "user pressed back or canceled a dialog");
                         break;
+                    case ITEM_ALREADY_OWNED:
+                        sendResult(30016, currentSku);
+                        break;
                     default:
                         sendResult(PAYRESULT_FAIL, "errorType = " + response.getErrorType());
                         break;
@@ -144,10 +148,10 @@ public class GooglePlayInterface extends YmnPaymentInterface implements YmnCallb
 
     @Override
     public void pay(final Map<String, String> map) {
-        String sku = map.get(ARG_PRODUCT_ID);
+        this.currentSku = map.get(ARG_PRODUCT_ID);
         this.currentOrderId = map.get(ARG_CP_ORDER_ID);
-        if(consumableIds.contains(sku)) billingConnector.purchase(getActivity(), sku);
-        else billingConnector.subscribe(getActivity(), sku);
+        if(consumableIds.contains(this.currentSku)) billingConnector.purchase(getActivity(), this.currentSku);
+        else billingConnector.subscribe(getActivity(), this.currentSku);
     }
 
     @Override
