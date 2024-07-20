@@ -37,4 +37,5 @@ dependencies {
     implementation project(path: ':adjust')
     implementation project(path: ':fyrestar')
     implementation project(path: ':minigame')
+    implementation project(path: ':admob')
 }

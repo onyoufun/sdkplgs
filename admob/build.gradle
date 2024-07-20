@@ -1,0 +1,34 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdk COMPILE_SDK_VERSION as int
+
+    defaultConfig {
+        minSdk MIN_SDK_VERSION as int
+        targetSdk TARGET_SDK_VERSION as int
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    // sdkface platform
+    implementation "com.github.linxcool.sdkface:platform:$version_sdkface"
+
+    // admob
+    implementation("com.google.android.gms:play-services-ads:23.2.0")
+
+}

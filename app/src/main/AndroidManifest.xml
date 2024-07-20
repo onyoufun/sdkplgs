@@ -20,7 +20,7 @@
         -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3226315085829241~9508393581"/>
+            android:value="ca-app-pub-3226315085829241~2469040926"/>
 
         <activity
             android:name=".GameActivity"

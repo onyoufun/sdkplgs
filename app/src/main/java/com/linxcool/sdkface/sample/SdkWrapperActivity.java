@@ -18,7 +18,8 @@ public abstract class SdkWrapperActivity extends Activity implements YmnCallback
         super.onCreate(savedInstanceState);
 
         YmnSdk.registPlugin("com.linxcool.sdkface.googleplay.GooglePlayInterface");
-        YmnSdk.registPlugin("com.linxcool.sdkface.ironsource.IronSourceInterface");
+        // YmnSdk.registPlugin("com.linxcool.sdkface.ironsource.IronSourceInterface");
+        YmnSdk.registPlugin("com.linxcool.sdkface.admob.AdmobInterface");
         YmnSdk.registPlugin("com.linxcool.sdkface.firebase.FirebaseInterface");
         YmnSdk.registPlugin("com.linxcool.sdkface.meta.MetaInterface");
         YmnSdk.registPlugin("com.linxcool.sdkface.minigame.MiniGameInterface");

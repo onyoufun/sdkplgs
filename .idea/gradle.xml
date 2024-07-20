@@ -7,11 +7,12 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="Embedded JDK" />
+        <option name="gradleJvm" value="jbr-17" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/adjust" />
+            <option value="$PROJECT_DIR$/admob" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/appsflyer" />
             <option value="$PROJECT_DIR$/firebase" />
@@ -22,7 +23,6 @@
             <option value="$PROJECT_DIR$/minigame" />
           </set>
         </option>
-        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

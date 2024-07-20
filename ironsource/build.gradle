@@ -33,20 +33,22 @@ dependencies {
     implementation "com.github.linxcool.sdkface:platform:$version_sdkface"
 
     // ironsource相关，及其所需的Google标识符权限
-    implementation 'com.ironsource.sdk:mediationsdk:7.2.1'
+    implementation 'com.ironsource.sdk:mediationsdk:8.2.0'
+    implementation 'com.ironsource:adqualitysdk:7.20.2'
+
     implementation 'com.google.android.gms:play-services-appset:16.0.0'
-    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
-    implementation 'com.google.android.gms:play-services-basement:17.1.1'
+    implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
+    implementation 'com.google.android.gms:play-services-basement:18.1.0'
 
     // 以下是ironsource的中介接口，去除哪家广告只要去除对应依赖（后续见AndroidManifest.xml）
 
     // ironsource: Add AdMob and Ad Manager Network
-    implementation 'com.google.android.gms:play-services-ads:20.6.0'
-    implementation 'com.ironsource.adapters:admobadapter:4.3.27'
+    implementation 'com.google.android.gms:play-services-ads:23.0.0'
+    implementation 'com.ironsource.adapters:admobadapter:4.3.43'
     // ironsource: Add Facebook Network
-    implementation 'com.ironsource.adapters:facebookadapter:4.3.34'
-    implementation 'com.facebook.android:audience-network-sdk:6.8.0'
+    implementation 'com.ironsource.adapters:facebookadapter:4.3.46'
+    implementation 'com.facebook.android:audience-network-sdk:6.17.0'
 
-    compileOnly 'com.adjust.sdk:adjust-android:4.31.1'
+    // compileOnly 'com.adjust.sdk:adjust-android:4.31.1'
 
 }
