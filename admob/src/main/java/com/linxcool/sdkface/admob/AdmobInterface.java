@@ -17,6 +17,7 @@ import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.ironsource.mediationsdk.IronSource;
+import com.ironsource.mediationsdk.integration.IntegrationHelper;
 import com.linxcool.sdkface.YmnCode;
 import com.linxcool.sdkface.feature.YmnPluginWrapper;
 import com.linxcool.sdkface.feature.protocol.YFunction;
@@ -75,6 +76,13 @@ public class AdmobInterface extends YmnPluginWrapper implements YmnCode {
     @Override
     public void onInit(Context context) {
         super.onInit(context);
+
+        rewardUnitId = getPropertie("admobRewardUnitId");
+        interstitialUnitId = getPropertie("admobInterstitialUnitId");
+        if(isDebugMode()) {
+            Logger.i("admobRewardUnitId = " + rewardUnitId);
+            Logger.i("admobInterstitialUnitId = " + interstitialUnitId);
+        }
 
         // ironSource 欧盟同意GDPR
         IronSource.setConsent(true);
