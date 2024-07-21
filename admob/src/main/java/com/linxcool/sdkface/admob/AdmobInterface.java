@@ -10,16 +10,20 @@ import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.initialization.AdapterStatus;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
+import com.ironsource.mediationsdk.IronSource;
 import com.linxcool.sdkface.YmnCode;
 import com.linxcool.sdkface.feature.YmnPluginWrapper;
 import com.linxcool.sdkface.feature.protocol.YFunction;
 import com.linxcool.sdkface.feature.protocol.YPlugin;
 import com.linxcool.sdkface.util.Logger;
+
+import java.util.Map;
 
 @YPlugin(strategy = YPlugin.Policy.FORCE, entrance = YPlugin.Entrance.ACTIVITY)
 public class AdmobInterface extends YmnPluginWrapper implements YmnCode {
@@ -71,8 +75,19 @@ public class AdmobInterface extends YmnPluginWrapper implements YmnCode {
     @Override
     public void onInit(Context context) {
         super.onInit(context);
+
+        // ironSource 欧盟同意GDPR
+        IronSource.setConsent(true);
+        // ironSource 添加支持CCPA
+        IronSource.setMetaData("do_not_sell", "true");
+
         MobileAds.initialize(getActivity(), initializationStatus -> {
             sendResult(ACTION_RET_INIT_SUCCESS, "admob 初始化成功");
+            Map<String, AdapterStatus> statusMap = initializationStatus.getAdapterStatusMap();
+            for (String adapterClass : statusMap.keySet()) {
+                AdapterStatus status = statusMap.get(adapterClass);
+                Logger.d(String.format("Admob adapter name: %s, Description: %s, Latency: %d", adapterClass, status.getDescription(), status.getLatency()));
+            }
         });
     }
 
@@ -235,5 +250,17 @@ public class AdmobInterface extends YmnPluginWrapper implements YmnCode {
     @YFunction(name = "admob_show_rewardinter_ad")
     public void showRewardinterAd() {
         Logger.e("还未实现激励插屏广告");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IronSource.onResume(getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        IronSource.onPause(getActivity());
     }
 }
