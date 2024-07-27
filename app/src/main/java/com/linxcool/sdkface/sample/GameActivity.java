@@ -51,6 +51,7 @@ public class GameActivity extends SdkWrapperActivity implements Handler.Callback
             public void onClick(View view) {
                 //YmnSdk.callFunction("template_login");
                 YmnSdk.callFunction("facebook_logevent", "login_start", "{}");
+                YmnSdk.callFunction("ymnfirebase_logevent", "login_start", "{}");
                 YmnSdk.login();
             }
         });

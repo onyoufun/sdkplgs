@@ -60,6 +60,22 @@ public class FirebaseInterface extends YmnPluginWrapper {
     }
 
     @YFunction(name = "ymnfirebase_logevent")
+    public void logEvent(String eventName, String eventParams) {
+        try {
+            Map<String, String> map = getMapFrom(eventParams);
+            if(map == null) return;
+
+            Bundle params = new Bundle();
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                params.putString(entry.getKey(), entry.getValue());
+            }
+            analytics.logEvent(eventName, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @YFunction(name = "ymnfirebase_logevent2")
     public void logEvent(final LinkedHashMap<String, String> events) {
         String eventName = events.get("eventName");
         String eventParams = events.get("eventParams");

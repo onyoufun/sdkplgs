@@ -26,12 +26,11 @@ android {
 }
 
 dependencies {
-
-    implementation platform('com.google.firebase:firebase-bom:29.2.1')
-    implementation 'com.google.firebase:firebase-analytics'
+    implementation "com.github.linxcool.sdkface:platform:$version_sdkface"
     compileOnly "com.google.code.gson:gson:2.8.5"
 
-    implementation "com.github.linxcool.sdkface:platform:$version_sdkface"
+    implementation platform('com.google.firebase:firebase-bom:32.3.1')
+    implementation 'com.google.firebase:firebase-analytics'
 
     // Clound Messenging
     implementation 'com.google.firebase:firebase-messaging'
