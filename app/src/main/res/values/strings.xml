@@ -2,8 +2,13 @@
     <string name="app_name">sdkface</string>
 
     <!-- facebook-login -->
+    <!--
     <string name="facebook_app_id">270103748649637</string>
     <string name="fb_login_protocol_scheme">fb270103748649637</string>
-    <string name="facebook_client_token">142504a4d4d413d0f26201e0e0cad018</string>
+    <string name="facebook_client_token">e1d5e1c2b0192ab2b28b6c85b6a9ad92</string>
+    -->
 
+    <string name="facebook_app_id">1124017418537290</string>
+    <string name="fb_login_protocol_scheme">fb1124017418537290</string>
+    <string name="facebook_client_token">f231f44c47c71cdc83b5bfb9dc1f9256</string>
 </resources>

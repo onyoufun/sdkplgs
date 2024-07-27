@@ -14,6 +14,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
@@ -95,6 +96,9 @@ public class MetaInterface extends YmnUserInterface {
     @Override
     public void onInit(Context context) {
         super.onInit(context);
+
+        // FacebookSdk.setIsDebugEnabled(true);
+
         eventLogger = AppEventsLogger.newLogger(getActivity());
         fbCallbackManger = CallbackManager.Factory.create();
 
@@ -214,10 +218,10 @@ public class MetaInterface extends YmnUserInterface {
                     String value = String.valueOf(map.get(type));
                     params.putString(type, value);
                 }
-                Logger.d("eventName ===  " + eventName + "eventParams  ====   " + eventParams);
+                Logger.d("eventName = " + eventName + ", eventParams = " + eventParams);
                 eventLogger.logEvent(eventName, params);
             } else {
-                Logger.d("eventName ===  " + eventName);
+                Logger.d("eventName = " + eventName);
                 eventLogger.logEvent(eventName);
             }
         }
