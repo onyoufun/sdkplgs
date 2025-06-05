@@ -18,7 +18,7 @@ dependencyResolutionManagement {
         // ironsource-sdk 依赖库
         maven { url 'https://android-sdk.is.com/' }
         // applovin-sdk 依赖库
-        maven { url 'https://artifacts.applovin.com/android' }
+        // maven { url 'https://artifacts.applovin.com/android' }
 
     }
 }
@@ -30,7 +30,7 @@ include ':firebase'
 include ':meta'
 include ':adjust'
 include ':appsflyer'
-include ':fyrestar'
-include ':minigame'
+//include ':fyrestar'
+//include ':minigame'
 include ':admob'
 include ':applovin'

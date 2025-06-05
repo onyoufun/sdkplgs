@@ -1,6 +1,11 @@
 plugins {
     id 'com.android.application'
+    id 'applovin-quality-service' //applovin环境配置
     id 'com.google.gms.google-services' version '4.3.10'
+}
+//applovin环境配置
+applovin {
+    apiKey "pXK19zorOy812MLP4TfTsdDSO7Omt6hZchpVhb9Vul0h7TiMTHzsFsfQdTpq6wK8ueL0wNDLB8ovfQL7EOvJl5"
 }
 
 android {
@@ -31,11 +36,12 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation "com.github.linxcool.sdkface:platform:$version_sdkface"
     implementation project(path: ':googleplay')
-    implementation project(path: ':ironsource')
+//    implementation project(path: ':ironsource')
     implementation project(path: ':firebase')
-    implementation project(path: ':meta')
-    implementation project(path: ':adjust')
-    implementation project(path: ':fyrestar')
-    implementation project(path: ':minigame')
-    implementation project(path: ':admob')
+//    implementation project(path: ':meta')
+//    implementation project(path: ':adjust')
+//    implementation project(path: ':fyrestar')
+//    implementation project(path: ':minigame')
+//    implementation project(path: ':admob')
+    implementation project(path: ':applovin')
 }

@@ -2,6 +2,7 @@
 102=meta
 201=ironsource
 202=admob
+203=applovin
 
 301=firebase
 401=adjust

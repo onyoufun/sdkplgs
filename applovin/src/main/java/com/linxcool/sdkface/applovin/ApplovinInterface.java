@@ -46,15 +46,16 @@ public class ApplovinInterface extends YmnPluginWrapper implements YmnCode {
     private static final int YMNIS_REWARD_UNREADY = 12514;// 奖励广告未准备完毕
 
     private String applovinAppKey;
+    private boolean needLoadedNotify = false;
 
     @Override
     public String getPluginId() {
-        return "201";
+        return "203";
     }
 
     @Override
     public String getPluginName() {
-        return "ironsource";
+        return "applovin";
     }
 
     @Override
@@ -64,7 +65,7 @@ public class ApplovinInterface extends YmnPluginWrapper implements YmnCode {
 
     @Override
     public String getSdkVersion() {
-        return "7.2.1";
+        return "1.2.1";
     }
 
     private List<MaxRewardedAd> rewardedAds = new ArrayList<>();
@@ -109,13 +110,19 @@ public class ApplovinInterface extends YmnPluginWrapper implements YmnCode {
 
             @Override
             public void onAdLoaded(@NonNull MaxAd maxAd) {
-                sendResult(YMNIS_REWARD_REQUEST_SUCCESS, "奖励广告请求成功");
+                if(needLoadedNotify) {
+                    sendResult(YMNIS_REWARD_REQUEST_SUCCESS, "奖励广告请求成功");
+                    needLoadedNotify = false;
+                }
                 retryAttempt = 0;
             }
 
             @Override
             public void onAdLoadFailed(@NonNull String s, @NonNull MaxError maxError) {
-                sendResult(YMNIS_REWARD_REQUEST_ERROR, "奖励广告请求失败，正在重试");
+                if(needLoadedNotify) {
+                    sendResult(YMNIS_REWARD_REQUEST_ERROR, "奖励广告请求失败，正在重试");
+                    needLoadedNotify = false;
+                }
                 retryAttempt++;
                 long delayMillis = TimeUnit.SECONDS.toMillis( (long) Math.pow( 2, Math.min( 6, retryAttempt ) ) );
                 new Handler().postDelayed(() -> rewardedAd.loadAd(), delayMillis );
@@ -161,6 +168,7 @@ public class ApplovinInterface extends YmnPluginWrapper implements YmnCode {
 
     @YFunction(name = "applovin_request_reward_ad")
     public void preloadRewardedAd() {
+        needLoadedNotify = true;
         for (MaxRewardedAd rewardedAd: rewardedAds) {
             if(!rewardedAd.isReady())
                 rewardedAd.loadAd();

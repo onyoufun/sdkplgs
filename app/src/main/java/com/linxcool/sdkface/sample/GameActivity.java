@@ -77,7 +77,7 @@ public class GameActivity extends SdkWrapperActivity implements Handler.Callback
             }
             @Override
             public void onClick(View view) {
-                YmnSdk.callFunction("admob_show_reward_ad");
+                YmnSdk.callFunction("applovin_show_reward_ad");
                 //YmnSdk.callFunction("ymnis_request_reward_ad");
             }
         });
