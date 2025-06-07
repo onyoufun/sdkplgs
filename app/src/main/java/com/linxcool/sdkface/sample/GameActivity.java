@@ -1,8 +1,5 @@
 package com.linxcool.sdkface.sample;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,11 +7,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
-
 import com.linxcool.sdkface.YmnSdk;
 import com.linxcool.sdkface.feature.protocol.IPaymentFeature;
 import com.linxcool.sdkface.util.Logger;
+import com.onyou.lsrule.R;
 
 import java.util.LinkedHashMap;
 

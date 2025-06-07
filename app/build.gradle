@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
-    id 'applovin-quality-service' //applovin环境配置
     id 'com.google.gms.google-services' version '4.3.10'
+    id 'applovin-quality-service' //applovin环境配置
 }
 //applovin环境配置
 applovin {
@@ -9,6 +9,7 @@ applovin {
 }
 
 android {
+    namespace "com.onyou.lsrule"
     compileSdk COMPILE_SDK_VERSION as int
 
     defaultConfig {

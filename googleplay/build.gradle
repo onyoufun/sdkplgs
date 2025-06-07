@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    namespace 'com.linxcool.sdkface.googleplay'
     compileSdk COMPILE_SDK_VERSION as int
 
     defaultConfig {

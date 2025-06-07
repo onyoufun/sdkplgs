@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    namespace 'com.linxcool.sdkface.firebase'
     compileSdk COMPILE_SDK_VERSION as int
 
     defaultConfig {

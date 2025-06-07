@@ -11,16 +11,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/adjust" />
-            <option value="$PROJECT_DIR$/admob" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/appsflyer" />
+            <option value="$PROJECT_DIR$/applovin" />
             <option value="$PROJECT_DIR$/firebase" />
-            <option value="$PROJECT_DIR$/fyrestar" />
             <option value="$PROJECT_DIR$/googleplay" />
-            <option value="$PROJECT_DIR$/ironsource" />
-            <option value="$PROJECT_DIR$/meta" />
-            <option value="$PROJECT_DIR$/minigame" />
           </set>
         </option>
       </GradleProjectSettings>

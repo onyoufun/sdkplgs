@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.linxcool.sdkface.sample">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
@@ -23,7 +22,7 @@
             android:value="ca-app-pub-3226315085829241~2469040926"/>
 
         <activity
-            android:name=".GameActivity"
+            android:name="com.linxcool.sdkface.sample.GameActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true">
             <intent-filter>
