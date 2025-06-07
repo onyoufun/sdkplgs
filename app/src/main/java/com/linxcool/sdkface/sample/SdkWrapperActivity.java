@@ -22,8 +22,8 @@ public abstract class SdkWrapperActivity extends Activity implements YmnCallback
         // YmnSdk.registPlugin("com.linxcool.sdkface.admob.AdmobInterface");
         YmnSdk.registPlugin("com.linxcool.sdkface.applovin.ApplovinInterface");
         YmnSdk.registPlugin("com.linxcool.sdkface.firebase.FirebaseInterface");
-        YmnSdk.registPlugin("com.linxcool.sdkface.meta.MetaInterface");
-        YmnSdk.registPlugin("com.linxcool.sdkface.minigame.MiniGameInterface");
+        // YmnSdk.registPlugin("com.linxcool.sdkface.meta.MetaInterface");
+        // YmnSdk.registPlugin("com.linxcool.sdkface.minigame.MiniGameInterface");
         YmnSdk.setDebugMode(true);
         YmnSdk.registCallback(this);
         YmnSdk.initialize(this);

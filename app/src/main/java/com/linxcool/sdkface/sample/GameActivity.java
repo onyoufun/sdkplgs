@@ -127,7 +127,7 @@ public class GameActivity extends SdkWrapperActivity implements Handler.Callback
             case YmnSdk.ACTION_RET_INIT_SUCCESS:
             case YmnSdk.PAYRESULT_INIT_SUCCESS:
                 toast("初始化成功");
-                YmnSdk.callFunction("admob_request_reward_ad");
+                YmnSdk.callFunction("applovin_request_reward_ad");
                 break;
             case YmnSdk.ACTION_RET_INIT_FAIL:
             case YmnSdk.PAYRESULT_INIT_FAIL:

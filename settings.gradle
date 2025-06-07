@@ -16,7 +16,7 @@ dependencyResolutionManagement {
             credentials { username authToken }
         }
         // ironsource-sdk 依赖库
-        maven { url 'https://android-sdk.is.com/' }
+        // maven { url 'https://android-sdk.is.com/' }
         // applovin-sdk 依赖库
         // maven { url 'https://artifacts.applovin.com/android' }
 

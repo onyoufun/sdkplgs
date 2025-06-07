@@ -80,6 +80,7 @@ public class ApplovinInterface extends YmnPluginWrapper implements YmnCode {
                 .build();
         AppLovinSdk.getInstance(getActivity()).initialize(initConfig, sdkConfig -> {
             sendResult(ACTION_RET_INIT_SUCCESS, "applovin 初始化成功");
+            preloadRewardedAd();
         });
 
         List<String> rewardedIds = null;
@@ -93,12 +94,12 @@ public class ApplovinInterface extends YmnPluginWrapper implements YmnCode {
         for (String adUnitId : rewardedIds) {
             rewardedAds.add(createRewardedAd(adUnitId));
         }
-        preloadRewardedAd();
 
-        AppLovinSdk.getInstance(context).getSettings().setCreativeDebuggerEnabled(!isDebugMode());
         if(isDebugMode()) {
             Logger.i("applovinAppKey = " + applovinAppKey);
             AppLovinSdk.getInstance(context).showCreativeDebugger();
+        } else {
+            AppLovinSdk.getInstance(context).getSettings().setCreativeDebuggerEnabled(false);
         }
     }
 
@@ -158,6 +159,7 @@ public class ApplovinInterface extends YmnPluginWrapper implements YmnCode {
             public void onUserRewarded(@NonNull MaxAd maxAd, @NonNull MaxReward maxReward) {
                 Logger.i(adUnitId + "Applovin onUserRewarded");
                 sendResult(YMNIS_REWARD_GETREWARD,"看完了奖励广告,发放奖励");
+                rewardedAd.loadAd();
             }
 
         } );
@@ -188,14 +190,18 @@ public class ApplovinInterface extends YmnPluginWrapper implements YmnCode {
 
     @YFunction(name = "applovin_show_reward_ad")
     public void showRewardedVideo() {
+        boolean foundAd = false;
         for (MaxRewardedAd rewardedAd: rewardedAds) {
             if (rewardedAd.isReady()) {
+                foundAd = true;
                 rewardedAd.showAd( getActivity() );
-                this.preloadRewardedAd();
                 break;
             }
         }
-        sendResult(YMNIS_REWARD_UNREADY, "奖励广告未准备完毕");
+        if(!foundAd) {
+            this.preloadRewardedAd();
+            sendResult(YMNIS_REWARD_UNREADY, "奖励广告未准备完毕");
+        }
     }
 
     @Override
